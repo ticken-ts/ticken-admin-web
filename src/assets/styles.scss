@@ -1,0 +1,23 @@
+@import "colors";
+
+button {
+  padding: 0.5rem 1rem;
+  background-color: $primary;
+  color: white;
+  border-radius: 1rem;
+  border: transparent solid 2px;
+  &:active {
+    background-color: $primary-dark;
+    color: white;
+  }
+}
+
+input {
+  padding: 0.5rem 1rem;
+  background-color: white;
+  border-radius: 1rem;
+  border: $primary solid 2px;
+  &:focus {
+    border: $primary solid 2px;
+  }
+}
