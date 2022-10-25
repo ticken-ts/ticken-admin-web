@@ -18,7 +18,7 @@ const session = useSessionStore();
 const router = useRouter();
 const { isLoggedIn } = storeToRefs(session);
 
-watch(isLoggedIn, (is, was) => {
+watch(isLoggedIn, (is) => {
   if (is) {
     router.push("/");
   }

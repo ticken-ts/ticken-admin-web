@@ -5,7 +5,7 @@ export interface ApiError {
   code: string;
 }
 
-export interface ServiceCall<V, T> {
+export interface ServiceCall<T, V = never> {
   method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   endpoint: string;
   parseResponse?: (res: AxiosResponse) => T;
@@ -13,4 +13,5 @@ export interface ServiceCall<V, T> {
   body?: V;
   key?: string;
   mock?: T;
+  apiUrl?: string;
 }

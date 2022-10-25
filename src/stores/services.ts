@@ -11,7 +11,7 @@ export const useServiceStore = defineStore("services", {
     responses: {} as Record<string, any>,
   }),
   actions: {
-    async call<V, T>(service: ServiceCall<V, T>): Promise<T> {
+    async call<V, T>(service: ServiceCall<T, V>): Promise<T> {
       if (service.mock) return service.mock;
 
       try {
@@ -45,7 +45,7 @@ export const useServiceStore = defineStore("services", {
         }
       }
     },
-    getResponse<V, T>(service: ServiceCall<V, T>): T | undefined {
+    getResponse<V, T>(service: ServiceCall<T, V>): T | undefined {
       if (service.mock) return service.mock;
       if (service.key) {
         return this.responses[service.key];
