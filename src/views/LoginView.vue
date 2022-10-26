@@ -1,8 +1,10 @@
 <template>
-  <h1>Login</h1>
-  <input type="email" v-model="email" />
-  <input type="password" v-model="password" />
-  <button @click="session.login">Login</button>
+  <main>
+    <h1>Login</h1>
+    <input type="email" v-model="email" />
+    <input type="password" v-model="password" />
+    <button @click="session.login">Login</button>
+  </main>
 </template>
 
 <script setup lang="ts">
@@ -26,6 +28,14 @@ watch(isLoggedIn, (is) => {
 </script>
 
 <style scoped>
+main {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 input {
   margin: 0.5rem 0;
 }

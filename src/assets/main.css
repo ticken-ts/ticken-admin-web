@@ -1,10 +1,9 @@
 @import "./base.css";
 
 #app {
-  max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
   font-weight: normal;
+  width: 100%;
 }
 
 a,
@@ -23,13 +22,5 @@ a,
 @media {
   body {
     display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 2rem;
   }
 }
