@@ -8,7 +8,7 @@
           </q-avatar>
           {{ title }}
           <q-space></q-space>
-          <q-btn flat :icon="rightIcon" @click="$emit('rightButtonClicked')" />
+          <q-btn v-if="!!rightIcon" flat :icon="rightIcon" @click="$emit('rightButtonClicked')" />
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
@@ -30,7 +30,7 @@ defineProps({
   },
   rightIcon: {
     type: String,
-    required: true,
+    required: false,
   },
 });
 defineEmits(["rightButtonClicked"]);

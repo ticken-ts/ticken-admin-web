@@ -46,7 +46,7 @@ import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
 import logo from "@/assets/logo.svg";
 import CustomCard from "@/components/CustomCard.vue";
-import CustomInput from "@/CustomInput.vue";
+import CustomInput from "@/components/CustomInput.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import CustomForm from "@/components/CustomForm.vue";
 
