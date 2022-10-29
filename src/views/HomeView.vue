@@ -3,7 +3,9 @@ import { useSessionStore } from "@/stores/session";
 import { ref } from "vue";
 import EventList from "@/components/EventList.vue";
 import Organization from "@/components/Organization.vue";
-import DialogModal from '@/components/DialogModal.vue';
+import DialogModal from "@/components/DialogModal.vue";
+import CustomCard from "@/components/CustomCard.vue";
+import PageWithHeader from "@/components/PageWithHeader.vue";
 
 const showLogoutPrompt = ref(false);
 
@@ -18,51 +20,36 @@ function openLogoutPrompt() {
 </script>
 
 <template>
-  <q-layout view="hHh lpR fFf">
-    <q-header elevated class="bg-primary text-white">
-      <q-toolbar>
-        <q-toolbar-title class="justify-start flex items-center">
-          <q-avatar>
-            <q-icon name="dashboard" />
-          </q-avatar>
-          Dashboard
-          <q-space></q-space>
-          <q-btn flat icon="logout" @click="openLogoutPrompt" />
-        </q-toolbar-title>
-      </q-toolbar>
-    </q-header>
-
-    <q-page-container class="row justify-center justify-md-evenly">
-      <div class="col-lg-2 col-0" />
-      <div class="col-lg-3 col-md-5 col-11">
-        <q-card class="contentCard">
-          <q-card-section>
-            <Organization />
-          </q-card-section>
-        </q-card>
-      </div>
-      <div class="col-lg-3 col-md-5 col-11">
-        <q-card class="contentCard">
-          <q-card-section>
-            <EventList />
-          </q-card-section>
-        </q-card>
-      </div>
-      <div class="col-lg-2 col-0" />
-    </q-page-container>
-    <DialogModal
-      v-model="showLogoutPrompt"
-      title="Are you sure you want to log out?"
-      firstButtonText="Cancel"
-      secondButtonText="Logout"
-      @cancel="showLogoutPrompt = false"
-      @confirm="logout"
-    />
-  </q-layout>
+  <PageWithHeader
+    icon="dashboard"
+    title="Dashboard"
+    rightIcon="logout"
+    @rightButtonClicked="openLogoutPrompt"
+  >
+    <div class="col-lg-2 col-0" />
+    <div class="col-lg-3 col-md-5 col-11">
+      <CustomCard class="contentCard">
+        <Organization />
+      </CustomCard>
+    </div>
+    <div class="col-lg-3 col-md-5 col-11">
+      <CustomCard class="contentCard">
+        <EventList />
+      </CustomCard>
+    </div>
+    <div class="col-lg-2 col-0" />
+  </PageWithHeader>
+  <DialogModal
+    v-model="showLogoutPrompt"
+    title="Are you sure you want to log out?"
+    firstButtonText="Cancel"
+    secondButtonText="Logout"
+    @cancel="showLogoutPrompt = false"
+    @confirm="logout"
+  />
 </template>
 
 <style scoped lang="scss">
-
 .container {
   display: flex;
   flex-direction: column;
