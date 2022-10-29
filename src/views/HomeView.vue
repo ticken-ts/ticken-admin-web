@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useSessionStore } from "@/stores/session";
 import {ref} from 'vue';
+import EventList from '@/components/EventList.vue';
 
 const showLogoutPrompt = ref(false);
 
@@ -33,16 +34,16 @@ function openLogoutPrompt() {
 
     <q-page-container class="row justify-md-center justify-evenly">
       <div class="col-md-5 col-11">
-        <q-card class="q-col-gutter">
+        <q-card class="contentCard">
           <q-card-section>
-            <h4>Organization</h4>
+            <h5>Organization</h5>
           </q-card-section>
         </q-card>
       </div>
       <div class="col-md-5 col-11">
-        <q-card class="q-gutter">
+        <q-card class="contentCard">
           <q-card-section>
-            <h4>Events</h4>
+            <EventList />
           </q-card-section>
         </q-card>
       </div>
@@ -83,5 +84,9 @@ main {
   justify-content: flex-start;
   align-items: center;
   max-width: 768px;
+}
+
+.contentCard {
+  margin-top: 2em;
 }
 </style>
