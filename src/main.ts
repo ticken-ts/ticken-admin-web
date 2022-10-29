@@ -5,12 +5,12 @@ import { Quasar } from "quasar";
 import "@quasar/extras/material-icons/material-icons.css";
 import "@quasar/extras/ionicons-v4/ionicons-v4.css";
 import "quasar/src/css/index.sass";
-import "quasar/src/css/flex-addon.sass"
+import "quasar/src/css/flex-addon.sass";
 
 import App from "@/App.vue";
 import router from "@/router";
 
-import "@/assets/main.css";
+import "@/assets/base.css";
 
 const app = createApp(App);
 const pinia = createPinia();

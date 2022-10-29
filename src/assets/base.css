@@ -1,8 +1,10 @@
 body {
-  height: 100vh
+  height: 100vh;
+  display: flex;
 }
 
 #app {
-  height: 100vh;
+  height: 100%;
+  flex: 1;
   font-family: "Rubik Light", sans-serif;
 }

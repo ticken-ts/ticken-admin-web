@@ -69,7 +69,6 @@ function openLogoutPrompt() {
 </template>
 
 <style scoped lang="scss">
-@import "@/assets/colors.scss";
 
 .container {
   display: flex;
@@ -79,7 +78,6 @@ function openLogoutPrompt() {
 }
 
 header {
-  background-color: $primary;
   width: 100%;
   color: white;
   padding: 10px;

@@ -63,7 +63,6 @@ watch(isLoggedIn, (is) => {
 </script>
 
 <style scoped lang="scss">
-@import "@/assets/colors.scss";
 main {
   display: flex;
   height: 100%;
