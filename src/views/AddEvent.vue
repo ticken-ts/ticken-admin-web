@@ -3,7 +3,7 @@
     <div class="col-md-6 col-sm-8 col-11 justify-center container">
       <CustomCard class="items-stretch column">
         <p class="text-h3">New Event</p>
-        <CustomForm class="column">
+        <CustomForm class="column" @submit="addEvent">
           <CustomInput
             v-model="name"
             label="Name"
@@ -18,11 +18,22 @@
             placeholder="Enter event description"
           />
           <div class="blankSpace" />
-          <CustomInput label="Date" stack-label v-model="date" type="date" />
+          <CustomInput
+            label="Date"
+            stack-label v-model="date"
+            type="date"
+            :rules="[(val) => !!val || 'Date is required']"
+          />
           <div class="blankSpace" />
-          <CustomInput label="Time" stack-label v-model="time" type="time" />
+          <CustomInput
+            label="Time"
+            stack-label
+            v-model="time"
+            type="time"
+            :rules="[(val) => !!val || 'Time is required']"
+          />
           <div class="blankSpace" />
-          <CustomButton @click="addEvent" color="primary" label="Add Event" />
+          <CustomButton type="submit" color="primary" label="Add Event" />
         </CustomForm>
       </CustomCard>
     </div>
@@ -40,9 +51,11 @@ import CustomButton from "@/components/CustomButton.vue";
 const name = ref("");
 const description = ref("");
 const date = ref(new Date().toISOString().slice(0, 10));
-const time = ref(new Date().toLocaleTimeString());
+const time = ref(new Date().toLocaleTimeString().slice(0, 5));
 
-const addEvent = () => {};
+const addEvent = () => {
+  console.log("adding event");
+};
 </script>
 
 <style scoped>
