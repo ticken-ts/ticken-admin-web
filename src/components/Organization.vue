@@ -1,5 +1,5 @@
 <template>
-  <h5>Organization</h5>
+  <p class="text-h5">Organization</p>
   <p>Name: {{organization.name}}</p>
   <q-btn outline color="primary" label="get credentials" @click="viewCredentials" />
 </template>

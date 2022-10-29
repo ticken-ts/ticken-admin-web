@@ -1,12 +1,12 @@
 <template>
   <div class="row justify-between items-center sectionHeader">
-    <h5 class="title text-center no-margin">Events</h5>
+    <p class="text-h5 title text-center no-margin">Events</p>
     <q-btn flat icon="add" label="add event" color="primary" to="add-event" />
   </div>
   <q-card v-for="event in events" :key="event.id" class="eventCard">
     <q-card-section>
-      <div class="text-h6">{{ event.name }}</div>
-      <div class="text-subtitle2">{{ event.description }}</div>
+      <p class="text-h6">{{ event.name }}</p>
+      <p class="text-subtitle2">{{ event.description }}</p>
     </q-card-section>
     <q-card-actions align="right">
       <q-btn flat label="Edit" color="primary" @click="editEvent(event.id)" />
