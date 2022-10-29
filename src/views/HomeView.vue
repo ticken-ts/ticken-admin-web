@@ -32,21 +32,23 @@ function openLogoutPrompt() {
       </q-toolbar>
     </q-header>
 
-    <q-page-container class="row justify-md-center justify-evenly">
-      <div class="col-md-5 col-11">
+    <q-page-container class="row justify-center justify-md-evenly">
+      <div class="col-lg-2 col-0"/>
+      <div class="col-lg-3 col-md-5 col-11">
         <q-card class="contentCard">
           <q-card-section>
             <h5>Organization</h5>
           </q-card-section>
         </q-card>
       </div>
-      <div class="col-md-5 col-11">
+      <div class="col-lg-3 col-md-5 col-11">
         <q-card class="contentCard">
           <q-card-section>
             <EventList />
           </q-card-section>
         </q-card>
       </div>
+      <div class="col-lg-2 col-0"/>
     </q-page-container>
     <q-dialog persistent transition-show="scale" v-model="showLogoutPrompt">
       <q-card>
