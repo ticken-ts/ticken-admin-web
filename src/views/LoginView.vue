@@ -1,39 +1,37 @@
 <template>
   <main class="row">
     <img src="@/assets/bg-login.jpg" alt="background" class="background">
-    <q-card class="col-md-3 col-sm-4 col-11">
-      <q-card-section class="column items-stretch">
+    <CustomCard class="col-md-3 col-sm-4 col-11">
+      <div class="column items-center">
         <img :src="logo" alt="logo" class="logo" />
-        <h4 class="title text-center">Login</h4>
-      </q-card-section>
-      <q-card-section class="column items-stretch">
-        <q-form @submit="login()" class="column">
-          <q-input
-            v-model="email"
-            label="Email"
-            type="email"
-            filled
-            class="q-mb-md"
-            :rules="[val => val && val.length > 0 || 'Please type your email']"
-          />
-          <q-input
-            v-model="password"
-            label="Password"
-            type="password"
-            filled
-            class="q-mb-md"
-            :rules="[val => val && val.length > 0 || 'Please type your password']"
-          />
-          <q-btn
-            type="submit"
-            color="primary"
-            label="Login"
-            class="q-mt-md"
-            :loading="loading"
-          />
-        </q-form>
-      </q-card-section>
-    </q-card>
+        <p class="text-h4 title text-center">Login</p>
+      </div>
+      <CustomForm @submit="login()" class="column">
+        <CustomInput
+          v-model="email"
+          label="Email"
+          type="email"
+          filled
+          class="q-mb-md"
+          :rules="[val => val && val.length > 0 || 'Please type your email']"
+        />
+        <CustomInput
+          v-model="password"
+          label="Password"
+          type="password"
+          filled
+          class="q-mb-md"
+          :rules="[val => val && val.length > 0 || 'Please type your password']"
+        />
+        <CustomButton
+          type="submit"
+          color="primary"
+          label="Login"
+          class="q-mt-md"
+          :loading="loading"
+        />
+      </CustomForm>
+    </CustomCard>
   </main>
 </template>
 
@@ -43,6 +41,9 @@ import { useSessionStore } from "@/stores/session";
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
 import logo from "@/assets/logo.svg";
+import CustomCard from "@/components/CustomCard.vue";
+import CustomInput from '@/CustomInput.vue';
+import CustomButton from '@/components/CustomButton.vue';
 
 const email = ref("");
 const password = ref("");
