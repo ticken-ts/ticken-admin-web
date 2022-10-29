@@ -1,5 +1,5 @@
 <template>
-  <q-form v-bind="$attrs"/>
+  <q-form v-bind="$attrs"><slot /></q-form>
 </template>
 
 <script setup>

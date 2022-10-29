@@ -1,6 +1,6 @@
 <template>
   <main class="row">
-    <img src="@/assets/bg-login.jpg" alt="background" class="background">
+    <img src="@/assets/bg-login.jpg" alt="background" class="background" />
     <CustomCard class="col-md-3 col-sm-4 col-11">
       <div class="column items-center">
         <img :src="logo" alt="logo" class="logo" />
@@ -13,7 +13,9 @@
           type="email"
           filled
           class="q-mb-md"
-          :rules="[val => val && val.length > 0 || 'Please type your email']"
+          :rules="[
+            (val) => (val && val.length > 0) || 'Please type your email',
+          ]"
         />
         <CustomInput
           v-model="password"
@@ -21,7 +23,9 @@
           type="password"
           filled
           class="q-mb-md"
-          :rules="[val => val && val.length > 0 || 'Please type your password']"
+          :rules="[
+            (val) => (val && val.length > 0) || 'Please type your password',
+          ]"
         />
         <CustomButton
           type="submit"
@@ -42,8 +46,9 @@ import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
 import logo from "@/assets/logo.svg";
 import CustomCard from "@/components/CustomCard.vue";
-import CustomInput from '@/CustomInput.vue';
-import CustomButton from '@/components/CustomButton.vue';
+import CustomInput from "@/CustomInput.vue";
+import CustomButton from "@/components/CustomButton.vue";
+import CustomForm from "@/components/CustomForm.vue";
 
 const email = ref("");
 const password = ref("");
@@ -53,6 +58,7 @@ const router = useRouter();
 const { isLoggedIn, loading } = storeToRefs(session);
 
 function login() {
+  console.log("logging in")
   session.login({ email: email.value, password: password.value });
 }
 
