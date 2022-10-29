@@ -3,6 +3,7 @@ import { useSessionStore } from "@/stores/session";
 import { ref } from "vue";
 import EventList from "@/components/EventList.vue";
 import Organization from "@/components/Organization.vue";
+import DialogModal from '@/components/DialogModal.vue';
 
 const showLogoutPrompt = ref(false);
 
@@ -49,22 +50,14 @@ function openLogoutPrompt() {
       </div>
       <div class="col-lg-2 col-0" />
     </q-page-container>
-    <q-dialog persistent transition-show="scale" v-model="showLogoutPrompt">
-      <q-card>
-        <q-card-section>
-          <div class="text-h6">Are you sure you want to logout?</div>
-        </q-card-section>
-        <q-card-actions align="right">
-          <q-btn
-            flat
-            label="Cancel"
-            color="primary"
-            @click="showLogoutPrompt = false"
-          />
-          <q-btn flat label="Logout" color="primary" @click="logout" />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
+    <DialogModal
+      v-model="showLogoutPrompt"
+      title="Are you sure you want to log out?"
+      firstButtonText="Cancel"
+      secondButtonText="Logout"
+      @cancel="showLogoutPrompt = false"
+      @confirm="logout"
+    />
   </q-layout>
 </template>
 
