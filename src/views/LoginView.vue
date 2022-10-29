@@ -1,13 +1,37 @@
 <template>
-  <main>
+  <main class="row">
     <img src="@/assets/bg-login.jpg" alt="background" class="background">
-    <q-card>
-      <q-card-section class="column items-center">
+    <q-card class="col-md-3 col-sm-4 col-11">
+      <q-card-section class="column items-stretch">
         <img :src="logo" alt="logo" class="logo" />
-        <h4 class="title">Login</h4>
-        <input placeholder="email" type="email" v-model="email" />
-        <input placeholder="password" type="password" v-model="password" />
-        <button @click="session.login">Login</button>
+        <h4 class="title text-center">Login</h4>
+      </q-card-section>
+      <q-card-section class="column items-stretch">
+        <q-form @submit="login()" class="column">
+          <q-input
+            v-model="email"
+            label="Email"
+            type="email"
+            filled
+            class="q-mb-md"
+            :rules="[val => val && val.length > 0 || 'Please type your email']"
+          />
+          <q-input
+            v-model="password"
+            label="Password"
+            type="password"
+            filled
+            class="q-mb-md"
+            :rules="[val => val && val.length > 0 || 'Please type your password']"
+          />
+          <q-btn
+            type="submit"
+            color="primary"
+            label="Login"
+            class="q-mt-md"
+            :loading="loading"
+          />
+        </q-form>
       </q-card-section>
     </q-card>
   </main>
@@ -25,7 +49,11 @@ const password = ref("");
 
 const session = useSessionStore();
 const router = useRouter();
-const { isLoggedIn } = storeToRefs(session);
+const { isLoggedIn, loading } = storeToRefs(session);
+
+function login() {
+  session.login({ email: email.value, password: password.value });
+}
 
 watch(isLoggedIn, (is) => {
   if (is) {

@@ -12,12 +12,14 @@ export const useSessionStore = defineStore(
     const token = ref("");
     const refreshToken = ref("");
     const loginError = ref("");
+    const loading = ref(false);
 
     const isLoggedIn = computed(() => {
       return token.value.length > 0;
     });
 
     const login = async (credentials: AppCredentials) => {
+      loading.value = true;
       service
         .call(logIn(credentials))
         .then((session) => {
@@ -26,6 +28,9 @@ export const useSessionStore = defineStore(
         })
         .catch((e) => {
           loginError.value = e.message;
+        })
+        .finally(() => {
+          loading.value = false;
         });
     };
 
@@ -41,6 +46,7 @@ export const useSessionStore = defineStore(
       loginError,
       login,
       logout,
+      loading,
     };
   },
   {
