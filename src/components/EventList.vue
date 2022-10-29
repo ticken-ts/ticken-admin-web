@@ -39,7 +39,6 @@ function editEvent(id) {
 function deleteEvent(id) {
   console.log("Delete event with id: " + id);
 }
-
 </script>
 
 <style scoped>
