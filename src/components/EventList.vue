@@ -1,5 +1,8 @@
 <template>
-  <h5 class="title">Events</h5>
+  <div class="row justify-between items-center sectionHeader">
+    <h5 class="title text-center no-margin">Events</h5>
+    <q-btn flat icon="add" label="add event" color="primary" to="add-event" />
+  </div>
   <q-card v-for="event in events" :key="event.id" class="eventCard">
     <q-card-section>
       <div class="text-h6">{{ event.name }}</div>
@@ -46,6 +49,9 @@ function deleteEvent(id) {
   margin-bottom: 1em;
 }
 .eventCard {
+  margin-bottom: 1rem;
+}
+.sectionHeader {
   margin-bottom: 1rem;
 }
 </style>

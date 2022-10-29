@@ -11,11 +11,11 @@ const { isLoggedIn } = storeToRefs(session);
 watch(
   isLoggedIn,
   (isLoggedIn, wasLoggedIn) => {
-    console.log("Was logged in?", wasLoggedIn);
-    console.log("Is logged in?", isLoggedIn);
     if (!wasLoggedIn && isLoggedIn) {
+      console.log("User has logged in")
       router.push("/");
     } else if (wasLoggedIn && !isLoggedIn) {
+      console.log("User has logged out")
       router.push("/login");
     }
   },
