@@ -26,7 +26,7 @@ function openLogoutPrompt() {
           </q-avatar>
           Dashboard
           <q-space></q-space>
-          <q-btn flat icon="logout" @click="openLogoutPrompt"/>
+          <q-btn flat icon="logout" @click="openLogoutPrompt" />
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
