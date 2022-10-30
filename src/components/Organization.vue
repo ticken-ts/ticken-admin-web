@@ -11,35 +11,21 @@
       @click="viewCredentials"
     />
   </div>
-  <q-expansion-item :default-opened="true" label="Details" icon="info" expand-separator>
+  <q-expansion-item
+    label="Details"
+    icon="info"
+    expand-separator
+  >
     <CustomCard>
       <p class="text-h6">Peers</p>
       <q-tab-panel name="peers">
         <q-table
           :rows="organization.peers"
-          row-key="name"
+          row-key="email"
           :rows-per-page-options="[5, 10, 15]"
         ></q-table>
       </q-tab-panel>
-      <p class="text-h6">Users</p>
-      <q-tab-panel name="users">
-        <q-table
-          :rows="organization.users"
-          row-key="email"
-          :rows-per-page-options="[5, 10, 15]"
-          @row-click="viewUser"
-        >
-          <template v-slot:body="props">
-            <q-tr :props="props" @click="viewUser(props.row)">
-              <q-td v-for="col in props.cols" :key="col.name" :props="props">
-                <q-item>
-                  <q-item-section>{{ col.value }}</q-item-section>
-                </q-item>
-              </q-td>
-            </q-tr>
-          </template>
-        </q-table>
-      </q-tab-panel>
+      <UserTable :users="organization.users" />
     </CustomCard>
   </q-expansion-item>
 </template>
@@ -47,10 +33,7 @@
 <script setup lang="ts">
 import CustomButton from "@/components/CustomButton.vue";
 import CustomCard from "@/components/CustomCard.vue";
-
-const viewUser = (user: string) => {
-  console.log(user);
-};
+import UserTable from "@/components/UserTable.vue";
 
 const organization = {
   name: "My Organization",
@@ -93,12 +76,38 @@ const organization = {
       email: "jferreyra@fi.uba.ar",
       role: "admin",
     },
-  ]
+    {
+      email: "ft0@fi.uba.ar",
+      role: "admin",
+    },
+    {
+      email: "ft00@fi.uba.ar",
+      role: "admin",
+    },
+    {
+      email: "ft2@fi.uba.ar",
+      role: "admin",
+    },
+    {
+      email: "ft3@fi.uba.ar",
+      role: "admin",
+    },
+    {
+      email: "ft4@fi.uba.ar",
+      role: "admin",
+    },
+    {
+      email: "ft5@fi.uba.ar",
+      role: "admin",
+    },
+    {
+      email: "ft6@fi.uba.ar",
+      role: "admin",
+    },
+  ],
 };
 
 function viewCredentials() {
   console.log("Get credentials");
 }
 </script>
-
-<style scoped></style>
