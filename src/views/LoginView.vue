@@ -2,7 +2,7 @@
   <main class="row">
     <img src="@/assets/bg-login.jpg" alt="background" class="background" />
     <CustomCard class="col-md-3 col-sm-4 col-11">
-      <div class="column items-center">
+      <div class="column items-center logoContainer">
         <img :src="logo" alt="logo" class="logo" />
         <p class="text-h4 title text-center">Login</p>
       </div>
@@ -87,7 +87,12 @@ button {
 
 .logo {
   height: 25vh;
+  max-width: 100%;
   pointer-events: none;
+}
+
+.logoContainer {
+  width: 100%;
 }
 
 .title {

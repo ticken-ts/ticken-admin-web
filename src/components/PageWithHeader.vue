@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh lpR fFf">
+  <q-layout view="hHh lpR fFf" class="flex column expand">
     <q-header elevated class="bg-primary text-white">
       <q-toolbar>
         <q-toolbar-title class="justify-start flex items-center">
@@ -12,7 +12,7 @@
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
-    <q-page-container class="row justify-center justify-md-evenly">
+    <q-page-container class="row justify-center justify-md-evenly expand">
       <slot />
     </q-page-container>
   </q-layout>
@@ -37,5 +37,7 @@ defineEmits(["rightButtonClicked"]);
 </script>
 
 <style scoped lang="scss">
-
+.expand {
+  height: 100%;
+}
 </style>
