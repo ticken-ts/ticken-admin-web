@@ -1,6 +1,6 @@
 <template>
   <PageWithHeader title="Add Event" icon="event">
-    <div class="col-md-6 col-sm-8 col-11 justify-center column container">
+    <div class="col-md-6 col-sm-8 col-11 justify-center container">
       <CustomCard class="items-stretch column">
         <p class="text-h3">New Event</p>
         <CustomForm class="column" @submit="addEvent">
@@ -60,6 +60,7 @@ const addEvent = () => {
 
 <style scoped>
 .container {
+  margin-top: 3em;
 }
 
 .blankSpace {
