@@ -1,5 +1,5 @@
 <template>
-  <PageWithHeader title="Add Event" icon="add">
+  <PageWithHeader title="Add Event" icon="event">
     <div class="col-md-6 col-sm-8 col-11 justify-center column container">
       <CustomCard class="items-stretch column">
         <p class="text-h3">New Event</p>
