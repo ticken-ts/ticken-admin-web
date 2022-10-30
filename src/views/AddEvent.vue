@@ -20,7 +20,8 @@
           <div class="blankSpace" />
           <CustomInput
             label="Date"
-            stack-label v-model="date"
+            stack-label
+            v-model="date"
             type="date"
             :rules="[(val) => !!val || 'Date is required']"
           />
