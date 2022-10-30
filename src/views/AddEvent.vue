@@ -64,6 +64,6 @@ const addEvent = () => {
 }
 
 .blankSpace {
-  margin-top: 2em;
+  margin-top: 1em;
 }
 </style>
