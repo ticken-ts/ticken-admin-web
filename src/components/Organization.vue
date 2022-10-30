@@ -27,15 +27,30 @@
           :rows="organization.users"
           row-key="email"
           :rows-per-page-options="[5, 10, 15]"
-        ></q-table>
+          @row-click="viewUser"
+        >
+          <template v-slot:body="props">
+            <q-tr :props="props" @click="viewUser(props.row)">
+              <q-td v-for="col in props.cols" :key="col.name" :props="props">
+                <q-item>
+                  <q-item-section>{{ col.value }}</q-item-section>
+                </q-item>
+              </q-td>
+            </q-tr>
+          </template>
+        </q-table>
       </q-tab-panel>
     </CustomCard>
   </q-expansion-item>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import CustomButton from "@/components/CustomButton.vue";
 import CustomCard from "@/components/CustomCard.vue";
+
+const viewUser = (user: string) => {
+  console.log(user);
+};
 
 const organization = {
   name: "My Organization",
