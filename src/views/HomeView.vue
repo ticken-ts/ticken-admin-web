@@ -2,7 +2,7 @@
 import { useSessionStore } from "@/stores/session";
 import { ref } from "vue";
 import EventList from "@/components/EventList.vue";
-import Organization from "@/components/Organization.vue";
+import Organization from "@/components/MyOrganization.vue";
 import DialogModal from "@/components/DialogModal.vue";
 import CustomCard from "@/components/CustomCard.vue";
 import PageWithHeader from "@/components/PageWithHeader.vue";

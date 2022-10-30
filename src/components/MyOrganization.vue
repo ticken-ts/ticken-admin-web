@@ -11,29 +11,23 @@
       @click="viewCredentials"
     />
   </div>
-  <q-expansion-item
-    label="Details"
-    icon="info"
-    expand-separator
-  >
-    <CustomCard>
-      <p class="text-h6">Peers</p>
-      <q-tab-panel name="peers">
-        <q-table
-          :rows="organization.peers"
-          row-key="email"
-          :rows-per-page-options="[5, 10, 15]"
-        ></q-table>
-      </q-tab-panel>
-      <UserTable :users="organization.users" />
-    </CustomCard>
-  </q-expansion-item>
+  <ExpandableIfWide>
+    <p class="text-h6">Peers</p>
+    <q-tab-panel name="peers">
+      <q-table
+        :rows="organization.peers"
+        row-key="email"
+        :rows-per-page-options="[5, 10, 15]"
+      ></q-table>
+    </q-tab-panel>
+    <UserTable :users="organization.users" />
+  </ExpandableIfWide>
 </template>
 
 <script setup lang="ts">
 import CustomButton from "@/components/CustomButton.vue";
-import CustomCard from "@/components/CustomCard.vue";
 import UserTable from "@/components/UserTable.vue";
+import ExpandableIfWide from "@/components/ExpandableIfWide.vue";
 
 const organization = {
   name: "My Organization",
