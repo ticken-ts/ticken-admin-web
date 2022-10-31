@@ -15,6 +15,7 @@
     <p class="text-h6">Peers</p>
     <q-tab-panel name="peers">
       <q-table
+        flat bordered
         :rows="organization.peers"
         row-key="email"
         :rows-per-page-options="[5, 10, 15]"

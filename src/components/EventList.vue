@@ -3,7 +3,7 @@
     <p class="text-h5 title text-center no-margin">Events</p>
     <q-btn flat icon="add" label="add event" color="primary" to="add-event" />
   </div>
-  <q-card v-for="event in events" :key="event.id" class="eventCard">
+  <q-card flat bordered v-for="event in events" :key="event.id" class="eventCard">
     <q-card-section>
       <p class="text-h6">{{ event.name }}</p>
       <p class="text-subtitle2">{{ event.description }}</p>

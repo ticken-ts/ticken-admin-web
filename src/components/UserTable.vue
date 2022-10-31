@@ -10,7 +10,7 @@
     />
   </div>
   <q-tab-panel name="users">
-    <q-table :rows="users" row-key="email" :rows-per-page-options="[5, 10, 15]">
+    <q-table flat bordered :rows="users" row-key="email" :rows-per-page-options="[5, 10, 15]">
       <template #body="{ row }: { row: { email: string, role: string } }">
         <q-tr :key="row.email" @click="clickViewUser(row)">
           <q-td>
