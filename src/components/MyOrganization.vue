@@ -4,12 +4,7 @@
       <p class="text-h5">Organization</p>
       <p>Name: {{ organization.name }}</p>
     </div>
-    <CustomButton
-      outline
-      color="primary"
-      label="get credentials"
-      @click="viewCredentials"
-    />
+    <OrganizationCredentials />
   </div>
   <ExpandableIfWide>
     <p class="text-h6">Peers</p>
@@ -26,9 +21,9 @@
 </template>
 
 <script setup lang="ts">
-import CustomButton from "@/components/CustomButton.vue";
-import UserTable from "@/components/UserTable.vue";
-import ExpandableIfWide from "@/components/ExpandableIfWide.vue";
+import UserTable from '@/components/UserTable.vue';
+import ExpandableIfWide from '@/components/ExpandableIfWide.vue';
+import OrganizationCredentials from '@/components/OrganizationCredentials.vue';
 
 const organization = {
   name: "My Organization",
@@ -102,7 +97,4 @@ const organization = {
   ],
 };
 
-function viewCredentials() {
-  console.log("Get credentials");
-}
 </script>
