@@ -1,12 +1,12 @@
 <template>
   <div class="row justify-between items-center">
-    <p class="text-h6 vertical-middle">Users</p>
+    <p class="text-h6 vertical-middle">Members</p>
     <CustomButton
       @click="clickAddUser"
       flat
       icon="add"
       color="primary"
-      label="Add User"
+      label="Add member"
     />
   </div>
   <q-tab-panel name="users">
@@ -27,12 +27,14 @@
       </template>
     </q-table>
   </q-tab-panel>
-  <q-dialog v-model="showingDialog">
+  <q-dialog @hide="hideDialog" v-model="showingDialog">
     <div class="row justify-center">
       <CustomCard>
+        <p v-if="editing" class="text-h3">Edit member</p>
+        <p v-else class="text-h3">New member</p>
         <CustomForm
           @submit="editing ? editUser() : addUser()"
-          class="column items-center"
+          class="column items-stretch"
         >
           <CustomInput
             v-model="email"
