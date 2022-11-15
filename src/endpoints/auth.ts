@@ -6,8 +6,10 @@ type Session = {
 };
 
 type ApiCredentials = {
-  email: string;
+  username: string;
   password: string;
+  client_id: "postman-organizer-app";
+  grant_type: "password";
 };
 
 export type AppCredentials = {
@@ -21,9 +23,14 @@ export const logIn = (
   method: "POST",
   endpoint: "/auth/login",
   key: "session",
-  body: credentials,
+  body: {
+    client_id: "postman-organizer-app",
+    grant_type: "password",
+    username: credentials.email,
+    password: credentials.password,
+  },
   mock: {
-    token: "123",
+    token: "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAdGlja2VuLmNvbSIsInN1YiI6IjI5MGM2NDFhLTU1YTEtNDBmNS1hY2MzLWQ0ZWJlMzYyNmZkZCJ9",
     refreshToken: "456",
   },
 });
