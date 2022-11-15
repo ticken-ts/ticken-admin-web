@@ -7,7 +7,7 @@ export interface User {
 
 export interface ApiUser {
   email: string;
-  id: string,
+  id: string;
   role: string;
 }
 
