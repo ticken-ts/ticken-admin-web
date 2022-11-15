@@ -11,7 +11,10 @@ export const useServiceStore = defineStore("services", {
     responses: {} as Record<string, any>,
   }),
   actions: {
-    async call<V, T>(service: ServiceCall<T, V>): Promise<T> {
+    async call<V, T>(
+      service: ServiceCall<T, V>,
+      authorization?: string
+    ): Promise<T> {
       if (service.mock) return service.mock;
 
       try {
@@ -19,6 +22,11 @@ export const useServiceStore = defineStore("services", {
           url: service.endpoint,
           method: service.method,
           data: service.body,
+          headers: authorization
+            ? {
+                Authorization: authorization,
+              }
+            : undefined,
         });
 
         let parsed;
