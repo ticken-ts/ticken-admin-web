@@ -76,7 +76,7 @@ export const getOrganizationEvents = (
 ): ServiceCall<ApiResponseEvent[]> => ({
   method: "GET",
   endpoint: `/organizations/${organizationID}/events`,
-  mock: [
+  mock: organizationID === "123" ? [
     {
       name: "Event name",
       date: "2021-01-01",
@@ -95,6 +95,13 @@ export const getOrganizationEvents = (
       event_id: "789",
       on_chain: false,
     },
+  ] : [
+    {
+      name: "Event name 4",
+      date: "2021-01-01",
+      event_id: "123",
+      on_chain: false,
+    }
   ],
   key: `organization-events-${organizationID}`,
 });
