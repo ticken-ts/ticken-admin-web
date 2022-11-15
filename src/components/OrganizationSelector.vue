@@ -1,0 +1,63 @@
+<template>
+  <q-select
+    label="Select Organization"
+    class="selector"
+    filled
+    v-model="selectedOrgID"
+    :options="organizationSelectorOptions"
+    option-value="value"
+    option-label="label"
+    emit-value
+    map-options
+  />
+</template>
+
+<script setup lang="ts">
+import { useAuthorizedService } from "@/stores/servicesWithAuth";
+import { computed, onMounted, ref, watch } from "vue";
+import { getMyOrganizations } from "@/endpoints/organization";
+import { useSelectedOrganization } from "@/stores/organization";
+
+const service = useAuthorizedService();
+const organizationStore = useSelectedOrganization();
+
+onMounted(() => {
+  service.call(getMyOrganizations());
+});
+
+const myOrganizations = service.getResponse(getMyOrganizations());
+
+const organizationSelectorOptions = computed(() => {
+  if (myOrganizations) {
+    return myOrganizations.map((org) => ({
+      label: org.name,
+      value: org.id,
+    }));
+  } else {
+    return [];
+  }
+});
+
+const savedSelectedOrgID = useSelectedOrganization().id;
+const selectedOrgID = ref(savedSelectedOrgID || organizationSelectorOptions.value[0]?.value);
+const selectedOrg = computed(() => {
+  return organizationSelectorOptions.value.find((org) => org.value === selectedOrgID.value);
+});
+
+watch(
+  selectedOrg,
+  (newVal) => {
+    if (newVal) {
+      organizationStore.selectOrganization({
+        id: newVal.value,
+        name: newVal.label,
+      });
+    }
+  },
+  {
+    immediate: true,
+  }
+);
+</script>
+
+<style scoped lang="scss"></style>

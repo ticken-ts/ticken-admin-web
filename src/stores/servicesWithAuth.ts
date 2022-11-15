@@ -3,7 +3,7 @@ import { useServiceStore } from "@/stores/services";
 import { useSessionStore } from "@/stores/session";
 import type { ServiceCall } from "@/endpoints/types";
 
-const useAuthorizedService = defineStore("authorizedService", () => {
+export const useAuthorizedService = defineStore("authorizedService", () => {
   const services = useServiceStore();
   const auth = useSessionStore();
 
