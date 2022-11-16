@@ -44,7 +44,7 @@ watch(
 );
 
 const events = computed(() =>
-  service.getResponse(getOrganizationEvents(selectedOrg.id))
+  service.response(getOrganizationEvents(selectedOrg.id))
 );
 
 function editEvent(id: string) {

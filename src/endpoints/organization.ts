@@ -1,6 +1,6 @@
 import type { ServiceCall } from "@/endpoints/types";
 
-export interface User {
+export interface AppMember {
   email: string;
   role: string;
 }
@@ -11,7 +11,7 @@ export interface ApiUser {
   role: string;
 }
 
-export interface Peer {
+export interface AppPeer {
   name: string;
   url: string;
 }
@@ -24,8 +24,8 @@ export interface ApiPeer {
 
 export interface Organization {
   name: string;
-  peers: Peer[];
-  users: User[];
+  peers: AppPeer[];
+  users: AppMember[];
 }
 
 export interface ApiOrganization {
@@ -94,11 +94,6 @@ export const getMyOrganizations = (): ServiceCall<
     },
   ],
 });
-
-export interface AppMember {
-  email: string;
-  role: string;
-}
 
 export const addMember = (
   organizationID: string,

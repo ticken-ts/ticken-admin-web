@@ -6,34 +6,46 @@ const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
 
+type State = {
+  responses: Record<string, any>,
+}
+
 export const useServiceStore = defineStore("services", {
-  state: () => ({
+  state: (): State => ({
     responses: {} as Record<string, any>,
   }),
+  getters: {
+    response:
+      <T, V>(state: State) =>
+      (service: ServiceCall<T, V>): T =>
+        service.key ? state.responses[service.key] : undefined,
+  },
   actions: {
     async call<V, T>(
       service: ServiceCall<T, V>,
       authorization?: string
     ): Promise<T> {
-      if (service.mock) return service.mock;
 
       try {
-        const res = await api.request({
-          url: service.endpoint,
-          method: service.method,
-          data: service.body,
-          headers: authorization
-            ? {
-                Authorization: authorization,
-              }
-            : undefined,
-        });
-
-        let parsed;
-        if (service.parseResponse) {
-          parsed = service.parseResponse(res);
+        let parsed: T;
+        if (service.mock) {
+          parsed = service.mock;
         } else {
-          parsed = res.data;
+          const res = await api.request({
+            url: service.endpoint,
+            method: service.method,
+            data: service.body,
+            headers: authorization
+              ? {
+                  Authorization: authorization,
+                }
+              : undefined,
+          });
+          if (service.parseResponse) {
+            parsed = service.parseResponse(res);
+          } else {
+            parsed = res.data;
+          }
         }
 
         if (service.key) {

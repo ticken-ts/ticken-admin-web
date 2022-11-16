@@ -55,14 +55,20 @@
 </template>
 
 <script setup lang="ts">
-import type { User } from "@/endpoints/organization";
+import type { AppMember } from "@/endpoints/organization";
 import CustomButton from "@/components/CustomButton.vue";
 import { ref } from "vue";
 import CustomCard from "@/components/CustomCard.vue";
 import CustomForm from "@/components/CustomForm.vue";
 import CustomInput from "@/components/CustomInput.vue";
+import {useAuthorizedService} from '@/stores/servicesWithAuth';
+import {addMember} from '@/endpoints/organization';
+import {useSelectedOrganization} from '@/stores/organization';
 
-defineProps<{ users: User[] }>();
+defineProps<{ users: AppMember[] }>();
+
+const service = useAuthorizedService();
+const organization = useSelectedOrganization();
 
 const showingDialog = ref(false);
 const email = ref("");
@@ -93,6 +99,7 @@ const clickAddUser = () => {
 
 const addUser = () => {
   console.log("adding user", email.value, role.value);
+  service.call(addMember(organization.id, {email: email.value, role: role.value}));
   hideDialog();
 };
 
