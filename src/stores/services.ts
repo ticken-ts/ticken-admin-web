@@ -21,11 +21,11 @@ export const useServiceStore = defineStore("services", {
       service: ServiceCall<T, V>,
       authorization?: string
     ): Promise<T> {
-      try {
-        let parsed: T;
-        if (service.mock) {
-          parsed = service.mock;
-        } else {
+      let parsed: T;
+      if (service.mock) {
+        parsed = service.mock;
+      } else {
+        try {
           const res = await api.request({
             url: service.endpoint,
             method: service.method,
@@ -41,28 +41,28 @@ export const useServiceStore = defineStore("services", {
           } else {
             parsed = res.data;
           }
-        }
-
-        if (service.mergeResponse) {
-          service.mergeResponse(this.$state, parsed);
-        }
-
-        if (service.key) {
-          this.responses[service.key] = parsed;
-        }
-
-        return parsed;
-      } catch (e) {
-        const error = e as AxiosError;
-        if (service.parseError) {
-          throw service.parseError(error);
-        } else {
-          throw {
-            code: error.code,
-            message: error.request.data,
-          } as ApiError;
+        } catch (e) {
+          const error = e as AxiosError;
+          if (service.parseError) {
+            throw service.parseError(error);
+          } else {
+            throw {
+              code: error.code,
+              message: error.request.data,
+            } as ApiError;
+          }
         }
       }
+
+      if (service.mergeResponse) {
+        service.mergeResponse(this.$state, parsed);
+      }
+
+      if (service.key) {
+        this.responses[service.key] = parsed;
+      }
+
+      return parsed;
     },
     getResponse<V, T>(service: ServiceCall<T, V>): T | undefined {
       if (service.mock) return service.mock;

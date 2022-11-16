@@ -41,21 +41,35 @@
   </PageWithHeader>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import PageWithHeader from "@/components/PageWithHeader.vue";
 import CustomForm from "@/components/CustomForm.vue";
 import CustomInput from "@/components/CustomInput.vue";
 import CustomCard from "@/components/CustomCard.vue";
 import { ref } from "vue";
 import CustomButton from "@/components/CustomButton.vue";
+import { useAuthorizedService } from "@/stores/servicesWithAuth";
+import { createEvent } from "@/endpoints/event";
+import { useSelectedOrganization } from "@/stores/organization";
 
 const name = ref("");
 const description = ref("");
 const date = ref(new Date().toISOString().slice(0, 10));
 const time = ref(new Date().toLocaleTimeString().slice(0, 5));
 
+const service = useAuthorizedService();
+const organization = useSelectedOrganization();
+
 const addEvent = () => {
   console.log("adding event");
+  service.call(
+    createEvent(organization.id, {
+      name: name.value,
+      description: description.value,
+      date: new Date(date.value),
+      time: time.value,
+    })
+  );
 };
 </script>
 

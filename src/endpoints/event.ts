@@ -46,10 +46,13 @@ export const createEvent = (
     date: eventData.date.toISOString(),
   },
   mock: {
-    name: "Event name",
-    date: "2021-01-01",
-    event_id: "123",
+    name: eventData.name,
+    date: eventData.date.toISOString(),
+    event_id: "1",
     on_chain: false,
+  },
+  mergeResponse: (state, res) => {
+    state.responses[`organization-events-${organizationID}`].push(res);
   },
 });
 
