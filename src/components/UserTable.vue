@@ -53,8 +53,10 @@
             :rules="[(val) => (val && val.length > 0) || 'Role is required']"
           />
           <CustomButton type="submit" color="primary" label="Save" />
-          <div class="spacing" />
-          <CustomButton color="negative" label="Delete" @click="deleteUser" />
+          <div class="deleteContainer" v-if="editing">
+            <div class="spacing" />
+            <CustomButton color="negative" label="Delete" @click="deleteUser" />
+          </div>
         </CustomForm>
       </CustomCard>
     </div>
@@ -136,5 +138,10 @@ const deleteUser = () => {
 
 .spacing {
   margin-top: 10px;
+}
+
+.deleteContainer {
+  display: flex;
+  flex-direction: column;
 }
 </style>
