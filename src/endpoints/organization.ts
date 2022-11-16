@@ -19,7 +19,7 @@ export interface AppPeer {
 export interface ApiPeer {
   name: string;
   url: string;
-  id: string
+  id: string;
 }
 
 export interface Organization {
@@ -114,12 +114,19 @@ export const addMember = (
   };
 };
 
-export const deleteMember = (userID: string, organizationID: string): ServiceCall<{}> => {
-
+export const deleteMember = (
+  userID: string,
+  organizationID: string
+): ServiceCall<{}> => {
   return {
     method: "DELETE",
     endpoint: `/organizations/${organizationID}/members/${userID}`,
     mock: {},
+    mergeResponse: (state) => {
+      state.responses[`organization-${organizationID}`].users = state.responses[
+        `organization-${organizationID}`
+      ].users.filter((user: ApiMember) => user.id !== userID);
+    },
   };
 };
 
@@ -136,6 +143,17 @@ export const editMember = (
       id: "888",
       email: member.email,
       role: member.role,
+    },
+    mergeResponse: (state, res) => {
+      state.responses[`organization-${organizationID}`].users = state.responses[
+        `organization-${organizationID}`
+      ].users.map((user: ApiMember) => {
+        if (user.id === userID) {
+          return res;
+        } else {
+          return user;
+        }
+      });
     },
   };
 };

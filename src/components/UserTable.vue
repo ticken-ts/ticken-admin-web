@@ -10,7 +10,7 @@
     />
   </div>
   <q-tab-panel name="users">
-    <q-table flat bordered :rows="users" row-key="email" :rows-per-page-options="[5, 10, 15]">
+    <q-table :columns="columns" flat bordered :rows="users" row-key="id" :rows-per-page-options="[5, 10, 15]">
       <template #body="{ row }: { row: { email: string, role: string } }">
         <q-tr :key="row.email" @click="clickViewUser(row)">
           <q-td>
@@ -21,6 +21,11 @@
           <q-td>
             <q-item>
               <q-item-section>{{ row.role }}</q-item-section>
+            </q-item>
+          </q-td>
+          <q-td>
+            <q-item>
+              <q-item-section>{{ row.id }}</q-item-section>
             </q-item>
           </q-td>
         </q-tr>
@@ -48,6 +53,8 @@
             :rules="[(val) => (val && val.length > 0) || 'Role is required']"
           />
           <CustomButton type="submit" color="primary" label="Save" />
+          <div class="spacing" />
+          <CustomButton color="negative" label="Delete" @click="deleteUser" />
         </CustomForm>
       </CustomCard>
     </div>
@@ -55,14 +62,14 @@
 </template>
 
 <script setup lang="ts">
-import type { AppMember } from "@/endpoints/organization";
+import type {ApiMember, AppMember} from '@/endpoints/organization';
 import CustomButton from "@/components/CustomButton.vue";
 import { ref } from "vue";
 import CustomCard from "@/components/CustomCard.vue";
 import CustomForm from "@/components/CustomForm.vue";
 import CustomInput from "@/components/CustomInput.vue";
 import {useAuthorizedService} from '@/stores/servicesWithAuth';
-import {addMember} from '@/endpoints/organization';
+import {addMember, deleteMember, editMember} from '@/endpoints/organization';
 import {useSelectedOrganization} from '@/stores/organization';
 
 defineProps<{ users: AppMember[] }>();
@@ -73,7 +80,13 @@ const organization = useSelectedOrganization();
 const showingDialog = ref(false);
 const email = ref("");
 const role = ref("");
-const editing = ref(false);
+const editing = ref("");
+
+const columns = [
+  { name: "email", label: "EMAIL", field: "email", align: "left" },
+  { name: "role", label: "ROLE", field: "role", align: "left" },
+  { name: "id", label: "ID", field: "id", align: "left" },
+];
 
 const showDialog = () => {
   showingDialog.value = true;
@@ -81,13 +94,13 @@ const showDialog = () => {
 
 const hideDialog = () => {
   showingDialog.value = false;
-  editing.value = false;
+  editing.value = "";
 };
 
-const clickViewUser = (user: any) => {
+const clickViewUser = (user: ApiMember) => {
   email.value = user.email;
   role.value = user.role;
-  editing.value = true;
+  editing.value = user.id;
   showDialog();
 };
 
@@ -105,6 +118,13 @@ const addUser = () => {
 
 const editUser = () => {
   console.log("editing user", email.value, role.value);
+  service.call(editMember(editing.value, organization.id, {email: email.value, role: role.value}));
+  hideDialog();
+};
+
+const deleteUser = () => {
+  console.log("deleting user", email.value, role.value);
+  service.call(deleteMember(editing.value, organization.id));
   hideDialog();
 };
 </script>
@@ -112,5 +132,9 @@ const editUser = () => {
 <style>
 .popupCard {
   width: 100%;
+}
+
+.spacing {
+  margin-top: 10px;
 }
 </style>
