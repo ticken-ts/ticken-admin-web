@@ -1,7 +1,7 @@
 <template>
   <div class="row justify-between items-center sectionHeader">
     <p class="text-h5 title text-center no-margin">Events</p>
-    <q-btn flat icon="add" label="add event" color="primary" to="add-event" />
+    <q-btn flat icon="add" label="add event" color="primary" @click="addEvent" />
   </div>
   <q-card
     flat
@@ -24,13 +24,19 @@
       />
     </q-card-actions>
   </q-card>
+  <q-dialog v-model="showingDialog">
+    <AddEvent @onSubmitted="closeDialog"/>
+  </q-dialog>
 </template>
 
 <script setup lang="ts">
 import { useSelectedOrganization } from "@/stores/organization";
-import { computed, watch } from "vue";
+import {computed, ref, watch} from 'vue';
 import { useAuthorizedService } from "@/stores/servicesWithAuth";
 import { getOrganizationEvents } from "@/endpoints/event";
+import AddEvent from '@/components/AddEvent.vue';
+
+const showingDialog = ref(false)
 
 const selectedOrg = useSelectedOrganization();
 const service = useAuthorizedService();
@@ -46,6 +52,14 @@ watch(
 const events = computed(() =>
   service.response(getOrganizationEvents(selectedOrg.id))
 );
+
+function addEvent() {
+  showingDialog.value = true;
+}
+
+function closeDialog() {
+  showingDialog.value = false;
+}
 
 function editEvent(id: string) {
   console.log("Edit event with id: " + id);
