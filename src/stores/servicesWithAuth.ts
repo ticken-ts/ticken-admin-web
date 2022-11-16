@@ -2,6 +2,7 @@ import { defineStore, storeToRefs } from 'pinia';
 import { useServiceStore } from "@/stores/services";
 import { useSessionStore } from "@/stores/session";
 import type { ServiceCall } from "@/endpoints/types";
+import type { Ref } from "vue";
 
 export const useAuthorizedService = defineStore("authorizedService", () => {
   const services = useServiceStore();

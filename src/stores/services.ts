@@ -1,14 +1,10 @@
 import { defineStore } from "pinia";
-import type { ApiError, ServiceCall } from "@/endpoints/types";
+import type { ApiError, ServiceCall, State } from "@/endpoints/types";
 import axios, { AxiosError } from "axios";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
-
-type State = {
-  responses: Record<string, any>,
-}
 
 export const useServiceStore = defineStore("services", {
   state: (): State => ({
@@ -25,7 +21,6 @@ export const useServiceStore = defineStore("services", {
       service: ServiceCall<T, V>,
       authorization?: string
     ): Promise<T> {
-
       try {
         let parsed: T;
         if (service.mock) {
@@ -46,6 +41,10 @@ export const useServiceStore = defineStore("services", {
           } else {
             parsed = res.data;
           }
+        }
+
+        if (service.mergeResponse) {
+          service.mergeResponse(this.$state, parsed);
         }
 
         if (service.key) {

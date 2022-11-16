@@ -34,7 +34,7 @@ import ExpandableIfWide from "@/components/ExpandableIfWide.vue";
 import OrganizationCredentials from "@/components/OrganizationCredentials.vue";
 import OrganizationSelector from "@/components/OrganizationSelector.vue";
 import { useSelectedOrganization } from "@/stores/organization";
-import {computed, watch} from 'vue';
+import { computed, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useAuthorizedService } from "@/stores/servicesWithAuth";
 import { getOrganization } from "@/endpoints/organization";
@@ -48,7 +48,11 @@ const selectedOrgData = computed(() =>
   service.response(getOrganization(selectedOrgID.value))
 );
 
-watch(selectedOrgID, (newVal) => {
-  if (newVal) service.call(getOrganization(newVal));
-});
+watch(
+  selectedOrgID,
+  (newVal) => {
+    if (newVal) service.call(getOrganization(newVal));
+  },
+  { immediate: true }
+);
 </script>

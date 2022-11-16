@@ -5,7 +5,7 @@ export interface AppMember {
   role: string;
 }
 
-export interface ApiUser {
+export interface ApiMember {
   email: string;
   id: string;
   role: string;
@@ -31,7 +31,7 @@ export interface Organization {
 export interface ApiOrganization {
   name: string;
   peers: ApiPeer[];
-  users: ApiUser[];
+  users: ApiMember[];
   id: string;
 }
 
@@ -98,45 +98,28 @@ export const getMyOrganizations = (): ServiceCall<
 export const addMember = (
   organizationID: string,
   member: AppMember
-): ServiceCall<ApiOrganization, AppMember> => {
-  const mock = getOrganization(organizationID).mock;
-
+): ServiceCall<ApiMember, AppMember> => {
   return {
     method: "POST",
     endpoint: `/organizations/${organizationID}/members`,
-    key: `organization-${organizationID}`,
     body: member,
-    mock:
-      mock != null
-        ? {
-            ...mock,
-            users: [
-              ...mock.users,
-              {
-                email: member.email,
-                role: member.role,
-                id: "888",
-              },
-            ],
-          }
-        : undefined,
+    mock: {
+      email: member.email,
+      role: member.role,
+      id: "888",
+    },
+    mergeResponse: (state, res) => {
+      state.responses[`organization-${organizationID}`].users.push(res);
+    },
   };
 };
 
-export const deleteMember = (userID: string, organizationID: string): ServiceCall<ApiOrganization> => {
-  const mock = getOrganization(organizationID).mock;
+export const deleteMember = (userID: string, organizationID: string): ServiceCall<{}> => {
 
   return {
     method: "DELETE",
     endpoint: `/organizations/${organizationID}/members/${userID}`,
-    key: `organization-${organizationID}`,
-    mock:
-      mock != null
-        ? {
-            ...mock,
-            users: mock.users.filter((user) => user.id !== userID),
-          }
-        : undefined,
+    mock: {},
   };
 };
 
@@ -144,22 +127,15 @@ export const editMember = (
   userID: string,
   organizationID: string,
   member: AppMember
-): ServiceCall<ApiOrganization, AppMember> => {
-  const mock = getOrganization(organizationID).mock;
-
+): ServiceCall<ApiMember, AppMember> => {
   return {
     method: "PUT",
     endpoint: `/organizations/${organizationID}/members/${userID}`,
-    key: `organization-${organizationID}`,
     body: member,
-    mock:
-      mock != null
-        ? {
-            ...mock,
-            users: mock.users.map((user) =>
-              user.id === userID ? { ...user, role: member.role } : user
-            ),
-          }
-        : undefined,
+    mock: {
+      id: "888",
+      email: member.email,
+      role: member.role,
+    },
   };
 };
