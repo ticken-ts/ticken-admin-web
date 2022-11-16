@@ -24,14 +24,6 @@ const router = createRouter({
       },
     },
     {
-      path: "/add-event",
-      name: "add-event",
-      component: AddEvent,
-      meta: {
-        loggedInOnly: true,
-      },
-    },
-    {
       path: "/about",
       name: "about",
       // route level code-splitting
