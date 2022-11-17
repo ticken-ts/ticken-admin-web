@@ -21,9 +21,9 @@ import { useSelectedOrganization } from "@/stores/organization";
 const service = useAuthorizedService();
 const organizationStore = useSelectedOrganization();
 
-onMounted(() => {
-  service.call(getMyOrganizations());
-});
+// onMounted(() => {
+//   service.call(getMyOrganizations());
+// });
 
 const myOrganizations = service.response(getMyOrganizations());
 

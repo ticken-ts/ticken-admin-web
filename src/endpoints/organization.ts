@@ -40,6 +40,24 @@ export interface ApiOrganizationReduced {
   id: string;
 }
 
+export const createOrganization = (name: string): ServiceCall<ApiOrganization> => ({
+  method: "POST",
+  endpoint: "/organizations",
+  mock: {
+    name,
+    users: [],
+    id: "555",
+    peers: [],
+  },
+  mergeResponse: (state, res) => {
+    state.responses[`organization-${res.id}`] = res;
+    state.responses["my-organizations"].push({
+      id: res.id,
+      name: res.name,
+    });
+  },
+});
+
 export const getOrganization = (id: string): ServiceCall<ApiOrganization> => ({
   method: "GET",
   endpoint: `/organizations/${id}`,
@@ -83,16 +101,7 @@ export const getMyOrganizations = (): ServiceCall<
   method: "GET",
   endpoint: "/organizations",
   key: "my-organizations",
-  mock: [
-    {
-      name: "My Org",
-      id: "123",
-    },
-    {
-      name: "My Org 2",
-      id: "456",
-    },
-  ],
+  mock: [],
 });
 
 export const addMember = (
