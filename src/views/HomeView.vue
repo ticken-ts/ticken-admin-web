@@ -47,9 +47,9 @@ function onCreateOrganization() {
     rightIcon="logout"
     @rightButtonClicked="openLogoutPrompt"
   >
-    <div v-if="userHasOrganizations" class="row col-12 justify-md-evenly justify-center">
+    <div v-if="userHasOrganizations" class="row col-12 justify-md-evenly justify-center items-start content-start">
       <div class="col-lg-2 col-0" />
-      <div class="col-lg-3 col-md-5 col-11 items-start">
+      <div class="col-lg-3 col-md-5 col-11">
         <CustomCard class="contentCard">
           <Organization />
         </CustomCard>
