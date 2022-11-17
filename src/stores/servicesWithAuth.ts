@@ -1,4 +1,4 @@
-import { defineStore, storeToRefs } from 'pinia';
+import { defineStore, storeToRefs } from "pinia";
 import { useServiceStore } from "@/stores/services";
 import { useSessionStore } from "@/stores/session";
 import type { ServiceCall } from "@/endpoints/types";
@@ -12,7 +12,9 @@ export const useAuthorizedService = defineStore("authorizedService", () => {
     return services.call(service, auth.token);
   };
 
-  const response = storeToRefs(services).response;
+  const response: Ref<<T, V>(service: ServiceCall<T, V>) => T> = storeToRefs(
+    services
+  ).response as any;
 
   const getResponse = <V, T>(service: ServiceCall<T, V>): T | undefined => {
     return services.getResponse(service);

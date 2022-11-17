@@ -25,7 +25,7 @@ onMounted(() => {
   service.call(getMyOrganizations());
 });
 
-const myOrganizations = service.getResponse(getMyOrganizations());
+const myOrganizations = service.response(getMyOrganizations());
 
 const organizationSelectorOptions = computed(() => {
   if (myOrganizations) {
@@ -39,7 +39,9 @@ const organizationSelectorOptions = computed(() => {
 });
 
 const savedSelectedOrgID = useSelectedOrganization().id;
-const selectedOrgID = ref(savedSelectedOrgID || organizationSelectorOptions.value[0]?.value);
+const selectedOrgID = ref(
+  savedSelectedOrgID || organizationSelectorOptions.value[0]?.value
+);
 const selectedOrg = computed(() => {
   return myOrganizations?.find((org) => org.id === selectedOrgID.value);
 });
