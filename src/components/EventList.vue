@@ -1,7 +1,13 @@
 <template>
   <div class="row justify-between items-center sectionHeader">
     <p class="text-h5 title text-center no-margin">Events</p>
-    <q-btn flat icon="add" label="add event" color="primary" @click="addEvent" />
+    <q-btn
+      flat
+      icon="add"
+      label="add event"
+      color="primary"
+      @click="addEvent"
+    />
   </div>
   <q-card
     flat
@@ -13,30 +19,34 @@
     <q-card-section>
       <p class="text-h6">{{ event.name }}</p>
       <p class="text-subtitle2">{{ event.description }}</p>
+      <div class="row items-center data-item">
+        <q-icon size="20px" name="event"></q-icon>
+        <p class="text-secondary margin-left">
+          {{ moment(event.date).format("MMMM Do YYYY") }}
+        </p>
+      </div>
+      <div class="row items-center data-item">
+        <q-icon size="20px" name="schedule"></q-icon>
+        <p class="text-secondary margin-left">
+          {{ moment(event.date).format("HH:mm") }}
+        </p>
+      </div>
     </q-card-section>
-    <q-card-actions align="right">
-      <q-btn flat label="Edit" color="primary" @click="editEvent(event.id)" />
-      <q-btn
-        flat
-        label="Delete"
-        color="primary"
-        @click="deleteEvent(event.id)"
-      />
-    </q-card-actions>
   </q-card>
   <q-dialog v-model="showingDialog">
-    <AddEvent @onSubmitted="closeDialog"/>
+    <AddEvent @onSubmitted="closeDialog" />
   </q-dialog>
 </template>
 
 <script setup lang="ts">
 import { useSelectedOrganization } from "@/stores/organization";
-import {computed, ref, watch} from 'vue';
+import { computed, ref, watch } from "vue";
 import { useAuthorizedService } from "@/stores/servicesWithAuth";
 import { getOrganizationEvents } from "@/endpoints/event";
-import AddEvent from '@/components/AddEvent.vue';
+import AddEvent from "@/components/AddEvent.vue";
+import moment from "moment/moment";
 
-const showingDialog = ref(false)
+const showingDialog = ref(false);
 
 const selectedOrg = useSelectedOrganization();
 const service = useAuthorizedService();
@@ -79,5 +89,11 @@ function deleteEvent(id: string) {
 }
 .sectionHeader {
   margin-bottom: 1rem;
+}
+.margin-left {
+  margin: 0 0 0 10px;
+}
+.data-item {
+  margin-bottom: 0.5rem;
 }
 </style>
