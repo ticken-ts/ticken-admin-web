@@ -1,9 +1,10 @@
 import { defineStore } from "pinia";
 import type { ApiError, ServiceCall, State } from "@/endpoints/types";
 import axios, { AxiosError } from "axios";
+import { config } from "@/config/constants";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: config.apiUrl,
 });
 
 export const useServiceStore = defineStore("services", {
