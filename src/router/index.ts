@@ -10,11 +10,11 @@ const DEFAULT_TITLE = "Ticken";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: "/login",
-      name: "Login",
-      component: LoginView,
-    },
+    // {
+    //   path: "/login",
+    //   name: "Login",
+    //   component: LoginView,
+    // },
     {
       path: "/",
       name: "home",
@@ -42,13 +42,13 @@ router.beforeEach((to, from, next) => {
   next();
 });
 
-router.beforeEach((to, from, next) => {
-  const session = useSessionStore();
-  if (to.meta.loggedInOnly && !session.isLoggedIn) {
-    next({ name: "Login" });
-  } else {
-    next();
-  }
-});
+// router.beforeEach((to, from, next) => {
+//   const session = useSessionStore();
+//   if (to.meta.loggedInOnly && !session.isLoggedIn) {
+//     next({ name: "Login" });
+//   } else {
+//     next();
+//   }
+// });
 
 export default router;

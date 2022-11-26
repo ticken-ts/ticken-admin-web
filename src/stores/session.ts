@@ -1,40 +1,43 @@
 import { defineStore } from "pinia";
-import { useServiceStore } from "@/stores/services";
 import { computed, ref } from "vue";
-import { logIn } from "@/endpoints/auth";
-import type { AppCredentials } from "@/endpoints/auth";
+import Keycloak from "keycloak-js";
+import { config } from "@/config/constants";
 
 export const useSessionStore = defineStore(
   "session",
   () => {
-    const service = useServiceStore();
-
     const token = ref("");
     const refreshToken = ref("");
     const loginError = ref("");
     const loading = ref(false);
 
+    const keycloak = ref(
+      new Keycloak({
+        url: config.keycloakUrl,
+        realm: "organizers",
+        clientId: "postman-organizer-app",
+      })
+    );
+
     const isLoggedIn = computed(() => {
       return token.value.length > 0;
     });
 
-    const login = async (credentials: AppCredentials) => {
-      loading.value = true;
-      service
-        .call(logIn(credentials))
-        .then((session) => {
-          token.value = session.token;
-          refreshToken.value = session.refreshToken;
-        })
-        .catch((e) => {
-          loginError.value = e.message;
-        })
-        .finally(() => {
-          loading.value = false;
+    const init = () => {
+      keycloak.value
+        .init({ onLoad: "login-required" })
+        .then((authenticated) => {
+          if (authenticated) {
+            console.log("authenticated");
+            token.value = keycloak.value.token || "";
+          } else {
+            window.location.reload();
+          }
         });
     };
 
     const logout = async () => {
+      await keycloak.value.logout();
       token.value = "";
       refreshToken.value = "";
     };
@@ -44,9 +47,9 @@ export const useSessionStore = defineStore(
       refreshToken,
       isLoggedIn,
       loginError,
-      login,
       logout,
       loading,
+      init,
     };
   },
   {
