@@ -17,14 +17,28 @@
     <p class="text-h6">Peers</p>
     <q-tab-panel name="peers">
       <q-table
+        :columns="[
+          {
+            name: 'name',
+            label: 'NAME',
+            field: 'node_name',
+            align: 'left',
+          },
+          {
+            name: 'address',
+            label: 'ADDRESS',
+            field: 'address',
+            align: 'left',
+          },
+        ]"
         flat
         bordered
-        :rows="selectedOrgData?.peers"
+        :rows="selectedOrgData?.nodes"
         row-key="email"
         :rows-per-page-options="[5, 10, 15]"
       ></q-table>
     </q-tab-panel>
-    <UserTable :users="selectedOrgData?.users" />
+    <UserTable v-if="selectedOrgData" :users="selectedOrgData?.users" />
   </ExpandableIfWide>
 </template>
 
@@ -34,10 +48,12 @@ import ExpandableIfWide from "@/components/ExpandableIfWide.vue";
 import OrganizationCredentials from "@/components/OrganizationCredentials.vue";
 import OrganizationSelector from "@/components/OrganizationSelector.vue";
 import { useSelectedOrganization } from "@/stores/organization";
-import { computed, watch } from "vue";
+import { computed } from "vue";
 import { storeToRefs } from "pinia";
 import { useAuthorizedService } from "@/stores/servicesWithAuth";
-import { getOrganization } from "@/endpoints/organization";
+import { getMyOrganizations } from "@/endpoints/organization";
+import type { ComponentProps } from "@/__VLS_types";
+import type { GlobalComponentConstructor, QTableProps, QTableSlots } from "quasar";
 
 const service = useAuthorizedService();
 
@@ -45,14 +61,8 @@ const organization = useSelectedOrganization();
 const selectedOrgID = storeToRefs(organization).id;
 
 const selectedOrgData = computed(() =>
-  service.response(getOrganization(selectedOrgID.value))
-);
-
-watch(
-  selectedOrgID,
-  (newVal) => {
-    if (newVal) service.call(getOrganization(newVal));
-  },
-  { immediate: true }
+  service
+    .response(getMyOrganizations())
+    .find((org) => org.organization_id === selectedOrgID.value)
 );
 </script>

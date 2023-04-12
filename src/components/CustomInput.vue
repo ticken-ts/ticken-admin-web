@@ -1,10 +1,8 @@
 <template>
-  <q-input
-    v-bind="$attrs"
-  />
+  <q-input model-value="" v-bind="$attrs" />
 </template>
 
-<script setup>
+<script setup lang="ts">
 
 </script>
 

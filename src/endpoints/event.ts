@@ -16,6 +16,7 @@ export interface ApiResponseEvent {
   date: string;
   event_id: string;
   on_chain: boolean;
+  description?: string;
 }
 
 export interface AppSection {

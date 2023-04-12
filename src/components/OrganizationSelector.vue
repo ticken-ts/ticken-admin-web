@@ -31,19 +31,19 @@ const organizationSelectorOptions = computed(() => {
   if (myOrganizations) {
     return myOrganizations.map((org) => ({
       label: org.name,
-      value: org.id,
+      value: org.organization_id,
     }));
   } else {
     return [];
   }
 });
 
-const savedSelectedOrgID = useSelectedOrganization().id;
+const savedSelectedOrgID = organizationStore.id;
 const selectedOrgID = ref(
   savedSelectedOrgID || organizationSelectorOptions.value[0]?.value
 );
 const selectedOrg = computed(() => {
-  return myOrganizations?.find((org) => org.id === selectedOrgID.value);
+  return myOrganizations?.find((org) => org.organization_id === selectedOrgID.value);
 });
 
 watch(
@@ -51,7 +51,7 @@ watch(
   (newVal) => {
     if (newVal) {
       organizationStore.selectOrganization({
-        id: newVal.id,
+        id: newVal.organization_id,
         name: newVal.name,
       });
     }

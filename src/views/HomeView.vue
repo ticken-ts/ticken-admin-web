@@ -6,7 +6,7 @@ import Organization from "@/components/MyOrganization.vue";
 import DialogModal from "@/components/DialogModal.vue";
 import CustomCard from "@/components/CustomCard.vue";
 import PageWithHeader from "@/components/PageWithHeader.vue";
-import {createOrganization, getMyOrganizations} from '@/endpoints/organization';
+import {getMyOrganizations} from '@/endpoints/organization';
 import { useAuthorizedService } from "@/stores/servicesWithAuth";
 import CustomButton from "@/components/CustomButton.vue";
 import CustomForm from '@/components/CustomForm.vue';
@@ -34,10 +34,6 @@ function logout() {
 function openLogoutPrompt() {
   showLogoutPrompt.value = true;
 }
-
-function onCreateOrganization() {
-  service.call(createOrganization(newOrgName.value));
-}
 </script>
 
 <template>
@@ -47,7 +43,10 @@ function onCreateOrganization() {
     rightIcon="logout"
     @rightButtonClicked="openLogoutPrompt"
   >
-    <div v-if="userHasOrganizations" class="row col-12 justify-md-evenly justify-center items-start content-start">
+    <div
+      v-if="userHasOrganizations"
+      class="row col-12 justify-md-evenly justify-center items-start content-start"
+    >
       <div class="col-lg-2 col-0" />
       <div class="col-lg-3 col-md-5 col-11">
         <CustomCard class="contentCard">
@@ -64,27 +63,10 @@ function onCreateOrganization() {
     <div v-else class="col-lg-6 col-md-8 col-11">
       <CustomCard class="contentCard column items-center">
         <div class="flex column items-center">
-          <p class="text-h4 text-center">
-            You don't have an organization
-          </p>
+          <p class="text-h4 text-center">You don't have an organization</p>
           <p class="text-subtitle1 text-center">
-            You can create one or wait until you're added to one as a member
+            You need to be added to one as a member
           </p>
-          <CustomForm @submit="onCreateOrganization" class="column items-stretch self-stretch">
-            <CustomInput
-              v-model="newOrgName"
-              class="self-stretch input"
-              filled
-              label="New Organization Name"
-              placeholder="Enter an organization name"
-              :rules="[
-                (val) => (val && val.length > 0) || 'Please enter an organization name',
-                (val) => (val.length >= 3) || 'Organization name must have at least 3 characters',
-                (val) => (val.length <= 30) || 'Organization name must have at most 30 characters',
-              ]"
-            />
-            <CustomButton color="primary" type="submit" icon="add" label="Create Organization" />
-          </CustomForm>
         </div>
       </CustomCard>
     </div>

@@ -15,7 +15,7 @@ export const useSessionStore = defineStore(
       new Keycloak({
         url: config.keycloakUrl,
         realm: "organizers",
-        clientId: "postman-organizer-app",
+        clientId: "client-organizer-app",
       })
     );
 

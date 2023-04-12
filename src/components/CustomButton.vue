@@ -2,7 +2,7 @@
   <q-btn v-bind="$attrs" />
 </template>
 
-<script setup>
+<script setup lang="ts">
 
 </script>
 

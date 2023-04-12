@@ -13,7 +13,7 @@
     flat
     bordered
     v-for="event in events"
-    :key="event.id"
+    :key="event.event_id"
     class="eventCard"
   >
     <q-card-section>

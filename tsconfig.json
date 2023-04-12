@@ -2,12 +2,15 @@
   "extends": "@vue/tsconfig/tsconfig.web.json",
   "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
   "compilerOptions": {
+    "ignoreDeprecations": "5.0",
+    "alwaysStrict": true,
+    "noImplicitThis": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
     "lib": [
-      "es2018",
+      "ES2021",
       "dom"
     ]
   },

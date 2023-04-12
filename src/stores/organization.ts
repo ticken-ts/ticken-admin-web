@@ -7,7 +7,7 @@ export const useSelectedOrganization = defineStore("organization", {
     id: "",
   }),
   actions: {
-    selectOrganization(organization: ApiOrganizationReduced) {
+    selectOrganization(organization: ApiOrganizationReduced): void {
       this.id = organization.id;
       this.name = organization.name;
     },

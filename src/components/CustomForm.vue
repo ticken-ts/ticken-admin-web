@@ -2,7 +2,7 @@
   <q-form v-bind="$attrs"><slot /></q-form>
 </template>
 
-<script setup>
+<script setup lang="ts">
 
 </script>
 
