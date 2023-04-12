@@ -1,4 +1,4 @@
-import type {ServiceCall} from '@/endpoints/types';
+import type { ServiceCall } from "@/endpoints/types";
 
 export interface AppEvent {
   name: string;
@@ -29,6 +29,25 @@ export interface ApiSection {
   total_tickets: number;
 }
 
+export interface Event {
+  event_id: string;
+  name: string;
+  date: Date;
+  sections: Section[];
+  poster: string;
+  description: string;
+  pub_bc_address: string;
+  status: string;
+}
+
+export interface Section {
+  event_id: string;
+  name: string;
+  total_tickets: number;
+  price: number;
+  on_chain: boolean;
+}
+
 export interface ApiResponseSection {
   event_id: string;
   name: string;
@@ -46,12 +65,12 @@ export const createEvent = (
     name: eventData.name,
     date: eventData.date.toISOString(),
   },
-  mock: {
-    name: eventData.name,
-    date: eventData.date.toISOString(),
-    event_id: "1",
-    on_chain: false,
-  },
+  // mock: {
+  //   name: eventData.name,
+  //   date: eventData.date.toISOString(),
+  //   event_id: "1",
+  //   on_chain: false,
+  // },
   mergeResponse: (state, res) => {
     state.responses[`organization-events-${organizationID}`].push(res);
   },
@@ -77,10 +96,12 @@ export const AddSection = (
 
 export const getOrganizationEvents = (
   organizationID: string
-): ServiceCall<ApiResponseEvent[]> => ({
+): ServiceCall<Event[]> => ({
   method: "GET",
   endpoint: `/organizations/${organizationID}/events`,
-  mock: organizationID === "123" ? [
+  key: `organization-events-${organizationID}`,
+  parseResponse: (res) => res.data.data,
+  /*   mock: organizationID === "123" ? [
     {
       name: "Event name",
       date: "2021-01-01",
@@ -107,5 +128,5 @@ export const getOrganizationEvents = (
       on_chain: false,
     }
   ],
-  key: `organization-events-${organizationID}`,
+ */
 });

@@ -1,18 +1,19 @@
 <template>
-  <div class="col-md-6 col-11 justify-center container row">
-    <CustomCard class="items-stretch column">
+  <div class="q-pa-md q-mt-auto justify-center container row grid">
+    <div class="items-stretch column col-md-8 col-10">
       <p class="text-h3">New Event</p>
       <CustomForm class="column" @submit="addEvent">
         <CustomInput
           v-model="name"
           label="Name"
           placeholder="Enter event name"
-          :rules="[(val) => !!val || 'Name is required']"
+          :rules="[(val: string) => !!val || 'Name is required']"
         />
         <div class="blankSpace" />
         <CustomInput
           v-model="description"
           multiline
+          type="textarea"
           label="Description"
           placeholder="Enter event description"
         />
@@ -22,7 +23,7 @@
           stack-label
           v-model="date"
           type="date"
-          :rules="[(val) => !!val || 'Date is required']"
+          :rules="[(val: string) => !!val || 'Date is required']"
         />
         <div class="blankSpace" />
         <CustomInput
@@ -30,12 +31,12 @@
           stack-label
           v-model="time"
           type="time"
-          :rules="[(val) => !!val || 'Time is required']"
+          :rules="[(val: string) => !!val || 'Time is required']"
         />
         <div class="blankSpace" />
         <CustomButton type="submit" color="primary" label="Add Event" />
       </CustomForm>
-    </CustomCard>
+    </div>
   </div>
 </template>
 
@@ -48,8 +49,7 @@ import CustomButton from "@/components/CustomButton.vue";
 import { useAuthorizedService } from "@/stores/servicesWithAuth";
 import { createEvent } from "@/endpoints/event";
 import { useSelectedOrganization } from "@/stores/organization";
-
-const emits = defineEmits(["onSubmitted"]);
+import router from "@/router";
 
 const name = ref("");
 const description = ref("");
@@ -69,7 +69,7 @@ const addEvent = async () => {
       time: time.value,
     })
   );
-  emits.call(undefined, "onSubmitted");
+  router.replace({ path: "/" });
 };
 </script>
 

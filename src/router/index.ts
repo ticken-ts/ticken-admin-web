@@ -34,6 +34,14 @@ const router = createRouter({
         loggedInOnly: true,
       },
     },
+    {
+      path: "/add-event",
+      name: "add-event",
+      component: AddEvent,
+      meta: {
+        loggedInOnly: true,
+      },
+    },
   ],
 });
 
