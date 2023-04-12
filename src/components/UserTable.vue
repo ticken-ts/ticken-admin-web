@@ -37,7 +37,6 @@
 import type { User } from "@/endpoints/organization";
 
 defineProps<{ users: User[] }>();
-
 </script>
 
 <style>

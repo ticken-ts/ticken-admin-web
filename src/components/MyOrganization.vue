@@ -52,8 +52,6 @@ import { computed } from "vue";
 import { storeToRefs } from "pinia";
 import { useAuthorizedService } from "@/stores/servicesWithAuth";
 import { getMyOrganizations } from "@/endpoints/organization";
-import type { ComponentProps } from "@/__VLS_types";
-import type { GlobalComponentConstructor, QTableProps, QTableSlots } from "quasar";
 
 const service = useAuthorizedService();
 

@@ -6,15 +6,10 @@ import Organization from "@/components/MyOrganization.vue";
 import DialogModal from "@/components/DialogModal.vue";
 import CustomCard from "@/components/CustomCard.vue";
 import PageWithHeader from "@/components/PageWithHeader.vue";
-import {getMyOrganizations} from '@/endpoints/organization';
+import { getMyOrganizations } from "@/endpoints/organization";
 import { useAuthorizedService } from "@/stores/servicesWithAuth";
-import CustomButton from "@/components/CustomButton.vue";
-import CustomForm from '@/components/CustomForm.vue';
-import CustomInput from '@/components/CustomInput.vue';
 
 const showLogoutPrompt = ref(false);
-
-const newOrgName = ref("");
 
 const service = useAuthorizedService();
 

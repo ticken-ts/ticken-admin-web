@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { useAuthorizedService } from "@/stores/servicesWithAuth";
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { getMyOrganizations } from "@/endpoints/organization";
 import { useSelectedOrganization } from "@/stores/organization";
 
@@ -43,7 +43,9 @@ const selectedOrgID = ref(
   savedSelectedOrgID || organizationSelectorOptions.value[0]?.value
 );
 const selectedOrg = computed(() => {
-  return myOrganizations?.find((org) => org.organization_id === selectedOrgID.value);
+  return myOrganizations?.find(
+    (org) => org.organization_id === selectedOrgID.value
+  );
 });
 
 watch(
