@@ -12,7 +12,6 @@
         <div class="blankSpace" />
         <CustomInput
           v-model="description"
-          multiline
           type="textarea"
           label="Description"
           placeholder="Enter event description"

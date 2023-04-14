@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import type { ApiError, ServiceCall, State } from "@/endpoints/types";
 import axios, { AxiosError } from "axios";
 import { config } from "@/config/constants";
+import { serialize } from "object-to-formdata";
 
 const api = axios.create({
   baseURL: config.apiUrl,
@@ -27,10 +28,16 @@ export const useServiceStore = defineStore("services", {
         parsed = service.mock;
       } else {
         try {
+          let parsedBody: FormData | V | undefined = service.body;
+
+          if (service.bodyType === "form") {
+            parsedBody = serialize(parsedBody);
+          }
+
           const res = await api.request({
             url: service.endpoint,
             method: service.method,
-            data: service.body,
+            data: parsedBody,
             headers: authorization
               ? {
                   Authorization: authorization,

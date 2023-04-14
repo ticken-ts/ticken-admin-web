@@ -10,6 +10,8 @@ export interface AppEvent {
 export interface ApiEvent {
   name: string;
   date: string;
+  description?: string;
+  poster?: File;
 }
 export interface ApiResponseEvent {
   name: string;
@@ -63,8 +65,11 @@ export const createEvent = (
   endpoint: `/organizations/${organizationID}/events`,
   body: {
     name: eventData.name,
+    // create date from date and time
     date: eventData.date.toISOString(),
+    description: eventData.description,
   },
+  bodyType: "form",
   // mock: {
   //   name: eventData.name,
   //   date: eventData.date.toISOString(),

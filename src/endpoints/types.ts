@@ -19,4 +19,5 @@ export interface ServiceCall<T, V = never> {
   key?: string;
   mock?: T;
   apiUrl?: string;
+  bodyType?: "json" | "form";
 }
