@@ -14,7 +14,6 @@
   >
     <q-card-section>
       <p class="text-h6">{{ event.name }}</p>
-      <p class="text-subtitle2">{{ event.description }}</p>
       <div class="row items-center data-item">
         <q-icon size="20px" name="event"></q-icon>
         <p class="text-secondary margin-left">

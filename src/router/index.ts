@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
-import LoginView from "@/views/LoginView.vue";
-import AddEvent from "@/components/AddEvent.vue";
+import AddEvent from "@/views/AddEvent.vue";
 
 import { useSessionStore } from "@/stores/session";
 

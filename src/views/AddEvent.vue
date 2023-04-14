@@ -5,12 +5,12 @@
       <CustomForm class="column" @submit="addEvent">
         <CustomInput
           v-model="name"
-          label="Name"
-          placeholder="Enter event name"
+          label="Event Title"
+          placeholder="Enter event title"
           :rules="[(val: string) => !!val || 'Name is required']"
         />
         <div class="blankSpace" />
-        <CustomInput
+        <q-editor
           v-model="description"
           type="textarea"
           label="Description"
@@ -51,7 +51,6 @@
 <script setup lang="ts">
 import CustomForm from "@/components/CustomForm.vue";
 import CustomInput from "@/components/CustomInput.vue";
-import CustomCard from "@/components/CustomCard.vue";
 import { ref, type Ref } from "vue";
 import CustomButton from "@/components/CustomButton.vue";
 import { useAuthorizedService } from "@/stores/servicesWithAuth";
@@ -70,11 +69,16 @@ const organization = useSelectedOrganization();
 
 const addEvent = async () => {
   console.log("adding event");
+  const eventDate = new Date(date.value);
+  const eventTime = time.value.split(":");
+  eventDate.setHours(parseInt(eventTime[0]));
+  eventDate.setMinutes(parseInt(eventTime[1]));
+
   await service.call(
     createEvent(organization.id, {
       name: name.value,
       description: description.value,
-      date: new Date(date.value),
+      date: eventDate,
       time: time.value,
       poster: file.value,
     })
