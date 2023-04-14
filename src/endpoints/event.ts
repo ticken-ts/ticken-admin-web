@@ -5,6 +5,7 @@ export interface AppEvent {
   description: string;
   date: Date;
   time: string;
+  poster?: File;
 }
 
 export interface ApiEvent {
@@ -68,6 +69,7 @@ export const createEvent = (
     // create date from date and time
     date: eventData.date.toISOString(),
     description: eventData.description,
+    poster: eventData.poster,
   },
   bodyType: "form",
   // mock: {

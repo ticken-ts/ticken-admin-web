@@ -33,6 +33,15 @@
           :rules="[(val: string) => !!val || 'Time is required']"
         />
         <div class="blankSpace" />
+        <q-file
+          label="Poster Image"
+          type="file"
+          accept="image/*"
+          stack-label
+          v-model="file"
+          :rules="[(val: string) => !!val || 'Poster image is required']"
+        />
+        <div class="blankSpace" />
         <CustomButton type="submit" color="primary" label="Add Event" />
       </CustomForm>
     </div>
@@ -43,7 +52,7 @@
 import CustomForm from "@/components/CustomForm.vue";
 import CustomInput from "@/components/CustomInput.vue";
 import CustomCard from "@/components/CustomCard.vue";
-import { ref } from "vue";
+import { ref, type Ref } from "vue";
 import CustomButton from "@/components/CustomButton.vue";
 import { useAuthorizedService } from "@/stores/servicesWithAuth";
 import { createEvent } from "@/endpoints/event";
@@ -54,6 +63,7 @@ const name = ref("");
 const description = ref("");
 const date = ref(new Date().toISOString().slice(0, 10));
 const time = ref(new Date().toLocaleTimeString().slice(0, 5));
+const file: Ref<undefined | File> = ref();
 
 const service = useAuthorizedService();
 const organization = useSelectedOrganization();
@@ -66,6 +76,7 @@ const addEvent = async () => {
       description: description.value,
       date: new Date(date.value),
       time: time.value,
+      poster: file.value,
     })
   );
   router.replace({ path: "/" });
