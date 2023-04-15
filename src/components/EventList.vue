@@ -13,7 +13,10 @@
     class="eventCard"
   >
     <q-card-section>
-      <p class="text-h6">{{ event.name }}</p>
+      <div class="row justify-between">
+        <p class="text-h6">{{ event.name }}</p>
+        <EventStatusBadge v-if="event" :status="event.status" />
+      </div>
       <div class="row items-center data-item">
         <q-icon size="20px" name="event"></q-icon>
         <p class="text-secondary margin-left">
@@ -43,6 +46,7 @@ import { useAuthorizedService } from "@/stores/servicesWithAuth";
 import { getOrganizationEvents } from "@/endpoints/event";
 import moment from "moment/moment";
 import type { RouterLink } from "vue-router";
+import EventStatusBadge from "@/components/EventStatusBadge.vue";
 
 const selectedOrg = useSelectedOrganization();
 const service = useAuthorizedService();

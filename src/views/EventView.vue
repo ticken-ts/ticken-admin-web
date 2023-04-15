@@ -3,12 +3,12 @@
     <CustomCard class="items-stretch column col-md-8 col-10">
       <div class="row justify-between">
         <p class="text-h3">Event Details</p>
-        <p class="text-h5">{{ event?.status.toUpperCase() }}</p>
+        <EventStatusBadge v-if="event" :status="event.status" />
       </div>
       <p class="text-secondary">Title</p>
-      <p class="text-h6">{{ event?.name }}</p>
+      <p class="text-h5">{{ event?.name }}</p>
       <p class="text-secondary">Date</p>
-      <p class="text-h6">{{ moment(event?.date).format("l H:MM") }}</p>
+      <p class="text">{{ moment(event?.date).format("l H:MM") }}</p>
       <q-expansion-item expand-separator label="Description">
         <CustomCard>
           <p v-html="event?.description" />
@@ -72,6 +72,8 @@ import moment from "moment/moment";
 import CustomCard from "@/components/CustomCard.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import AddSectionModal from "@/components/AddSectionModal.vue";
+import "@/views/EventView.css";
+import EventStatusBadge from "@/components/EventStatusBadge.vue";
 
 const route = useRoute();
 
