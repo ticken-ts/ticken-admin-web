@@ -67,12 +67,6 @@ export const createEvent = (
     poster: eventData.poster,
   },
   bodyType: "form",
-  // mock: {
-  //   name: eventData.name,
-  //   date: eventData.date.toISOString(),
-  //   event_id: "1",
-  //   on_chain: false,
-  // },
   mergeResponse: (state, res) => {
     state.responses[`organization-events-${organizationID}`].push(res.data);
   },
@@ -89,12 +83,6 @@ export const addSection = (
     total_tickets: sectionData.totalTickets,
     ticket_price: sectionData.price,
   },
-  // mock: {
-  //   event_id: "123",
-  //   name: "Section name",
-  //   total_tickets: 100,
-  //   on_chain: false,
-  // },
   endpoint: `/organizations/${organizationID}/events/${eventID}/sections`,
   mergeResponse: (state, res) => {
     state.responses[`organization-events-${organizationID}`].forEach(
@@ -113,33 +101,22 @@ export const getOrganizationEvents = (
   method: "GET",
   endpoint: `/organizations/${organizationID}/events`,
   key: `organization-events-${organizationID}`,
-  parseResponse: (res) => res.data.data,
-  /*   mock: organizationID === "123" ? [
-    {
-      name: "Event name",
-      date: "2021-01-01",
-      event_id: "123",
-      on_chain: false,
-    },
-    {
-      name: "Event name 2",
-      date: "2021-01-01",
-      event_id: "456",
-      on_chain: false,
-    },
-    {
-      name: "Event name 3",
-      date: "2021-01-01",
-      event_id: "789",
-      on_chain: false,
-    },
-  ] : [
-    {
-      name: "Event name 4",
-      date: "2021-01-01",
-      event_id: "123",
-      on_chain: false,
-    }
-  ],
- */
+  parseResponse: (res) => res.data,
+});
+
+export const setEventOnSale = (
+  eventID: string,
+  organizationID: string
+): ServiceCall<Event> => ({
+  method: "PATCH",
+  endpoint: `/organizations/${organizationID}/events/${eventID}/on_sale`,
+  mergeResponse: (state, res) => {
+    state.responses[`organization-events-${organizationID}`].forEach(
+      (event: Event) => {
+        if (event.event_id === eventID) {
+          event.status = res.data.status;
+        }
+      }
+    );
+  },
 });

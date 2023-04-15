@@ -15,7 +15,9 @@ const service = useAuthorizedService();
 
 const myOrganizations = computed(() => service.response(getMyOrganizations()));
 
-const userHasOrganizations = computed(() => myOrganizations.value.length > 0);
+const userHasOrganizations = computed(
+  () => myOrganizations.value?.length && myOrganizations.value?.length > 0
+);
 
 onMounted(() => {
   service.call(getMyOrganizations());

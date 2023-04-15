@@ -52,5 +52,4 @@ export const getMyOrganizations = (): ServiceCall<ApiOrganization[]> => ({
   method: "GET",
   endpoint: "/organizations",
   key: "my-organizations",
-  parseResponse: (response) => response.data.data,
 });

@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import type { ApiError, ServiceCall, State } from "@/endpoints/types";
+import type { ApiError, ApiResponse, ServiceCall, State } from "@/endpoints/types";
 import axios, { AxiosError } from "axios";
 import { config } from "@/config/constants";
 import { serialize } from "object-to-formdata";
@@ -22,10 +22,13 @@ export const useServiceStore = defineStore("services", {
     async call<V, T>(
       service: ServiceCall<T, V>,
       authorization?: string
-    ): Promise<T> {
-      let parsed: T;
+    ): Promise<ApiResponse<T>> {
+      let parsed: ApiResponse<T>;
       if (service.mock) {
-        parsed = service.mock;
+        parsed = {
+          data: service.mock,
+          message: "Mocked response",
+        };
       } else {
         try {
           let parsedBody: FormData | V | undefined = service.body;
@@ -70,7 +73,7 @@ export const useServiceStore = defineStore("services", {
       }
 
       if (service.key) {
-        this.responses[service.key] = parsed;
+        this.responses[service.key] = parsed.data;
       }
 
       return parsed;
