@@ -24,13 +24,32 @@
       </q-expansion-item>
       <div class="q-mt-lg">
         <CustomButton
+          v-if="event && event.status === EventStatus.DRAFT"
           class="q-mr-md"
           color="primary"
           label="Set On Sale"
           @click="onSetOnSale"
         />
+        <CustomButton
+          v-if="event && event.status === EventStatus.ON_SALE"
+          class="q-mr-md"
+          color="primary"
+          label="Set Running"
+          @click="setRunning"
+        />
+        <CustomButton
+          v-if="event && event.status === EventStatus.RUNNING"
+          class="q-mr-md"
+          color="primary"
+          label="Set Finished"
+          @click="setFinished"
+        />
         <AddSectionModal
-          v-if="event && !Array.isArray($route.params.organizationID)"
+          v-if="
+            event &&
+            event.status === EventStatus.DRAFT &&
+            !Array.isArray($route.params.organizationID)
+          "
           :event="event"
           :organizationID="$route.params.organizationID"
         />
@@ -42,7 +61,12 @@
 import { defineProps, ref } from "vue";
 import { useAuthorizedService } from "@/stores/servicesWithAuth";
 import { useRoute } from "vue-router";
-import { getOrganizationEvents, type Event } from "@/endpoints/event";
+import {
+  getOrganizationEvents,
+  type Event,
+  EventStatus,
+  setEventStatus,
+} from "@/endpoints/event";
 import { computed } from "vue";
 import moment from "moment/moment";
 import CustomCard from "@/components/CustomCard.vue";
@@ -66,6 +90,53 @@ const event = computed(() => {
 });
 
 const onSetOnSale = () => {
-  console.log("onSetOnSale");
+  service
+    .call(
+      setEventStatus(
+        route.params.eventID as string,
+        route.params.organizationID as string,
+        EventStatus.ON_SALE
+      )
+    )
+    .then(() => {
+      console.log("set on sale");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+const setRunning = () => {
+  service
+    .call(
+      setEventStatus(
+        route.params.eventID as string,
+        route.params.organizationID as string,
+        EventStatus.RUNNING
+      )
+    )
+    .then(() => {
+      console.log("set running");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+const setFinished = () => {
+  service
+    .call(
+      setEventStatus(
+        route.params.eventID as string,
+        route.params.organizationID as string,
+        EventStatus.FINISHED
+      )
+    )
+    .then(() => {
+      console.log("set finished");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 </script>

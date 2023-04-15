@@ -86,11 +86,12 @@ const onAddSection = async () => {
         totalTickets: parseInt(totalTickets.value),
       })
     )
-    .catch((err) => {
-      console.log(err);
-    })
     .then(() => {
       showing.value = false;
+      alert("Section added successfully");
+    })
+    .catch((err) => {
+      console.log(err);
     });
 };
 </script>

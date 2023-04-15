@@ -104,12 +104,20 @@ export const getOrganizationEvents = (
   parseResponse: (res) => res.data,
 });
 
-export const setEventOnSale = (
+type SetStatusBody = {
+  next_status: EventStatus;
+};
+
+export const setEventStatus = (
   eventID: string,
-  organizationID: string
-): ServiceCall<Event> => ({
+  organizationID: string,
+  status: EventStatus,
+): ServiceCall<Event, SetStatusBody> => ({
   method: "PATCH",
-  endpoint: `/organizations/${organizationID}/events/${eventID}/on_sale`,
+  body: {
+    next_status: status,
+  },
+  endpoint: `/organizations/${organizationID}/events/${eventID}/status`,
   mergeResponse: (state, res) => {
     state.responses[`organization-events-${organizationID}`].forEach(
       (event: Event) => {
