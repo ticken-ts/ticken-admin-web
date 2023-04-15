@@ -26,7 +26,11 @@
           {{ moment(event.date).format("HH:mm") }}
         </p>
       </div>
-      <AddSectionModal :event="event" :organizationID="selectedOrg.id" />
+      <AddSectionModal
+        v-if="event.status === EventStatus.DRAFT"
+        :event="event"
+        :organizationID="selectedOrg.id"
+      />
     </q-card-section>
   </q-card>
 </template>
@@ -35,7 +39,7 @@
 import { useSelectedOrganization } from "@/stores/organization";
 import { computed, watch } from "vue";
 import { useAuthorizedService } from "@/stores/servicesWithAuth";
-import { getOrganizationEvents } from "@/endpoints/event";
+import { getOrganizationEvents, EventStatus } from "@/endpoints/event";
 import moment from "moment/moment";
 import AddSectionModal from "./AddSectionModal.vue";
 

@@ -8,18 +8,11 @@ export interface AppEvent {
   poster?: File;
 }
 
-export interface ApiEvent {
+export interface ApiCallEvent {
   name: string;
   date: string;
   description?: string;
   poster?: File;
-}
-export interface ApiResponseEvent {
-  name: string;
-  date: string;
-  event_id: string;
-  on_chain: boolean;
-  description?: string;
 }
 
 export interface AppSection {
@@ -28,7 +21,7 @@ export interface AppSection {
   price: number;
 }
 
-export interface ApiSection {
+export interface ApiCallSection {
   name: string;
   total_tickets: number;
   ticket_price: number;
@@ -42,7 +35,14 @@ export interface Event {
   poster: string;
   description: string;
   pub_bc_address: string;
-  status: string;
+  status: EventStatus;
+}
+
+export enum EventStatus {
+  DRAFT = "draft",
+  ON_SALE = "on_sale",
+  RUNNING = "running",
+  FINISHED = "finished",
 }
 
 export interface Section {
@@ -53,17 +53,10 @@ export interface Section {
   on_chain: boolean;
 }
 
-export interface ApiResponseSection {
-  event_id: string;
-  name: string;
-  total_tickets: number;
-  on_chain: boolean;
-}
-
 export const createEvent = (
   organizationID: string,
   eventData: AppEvent
-): ServiceCall<ApiResponseEvent, ApiEvent> => ({
+): ServiceCall<Event, ApiCallEvent> => ({
   method: "POST",
   endpoint: `/organizations/${organizationID}/events`,
   body: {
@@ -81,7 +74,7 @@ export const createEvent = (
   //   on_chain: false,
   // },
   mergeResponse: (state, res) => {
-    state.responses[`organization-events-${organizationID}`].push(res);
+    state.responses[`organization-events-${organizationID}`].push(res.data);
   },
 });
 
@@ -89,7 +82,7 @@ export const addSection = (
   eventID: string,
   organizationID: string,
   sectionData: AppSection
-): ServiceCall<ApiResponseSection, ApiSection> => ({
+): ServiceCall<Section, ApiCallSection> => ({
   method: "PUT",
   body: {
     name: sectionData.name,
@@ -103,6 +96,15 @@ export const addSection = (
   //   on_chain: false,
   // },
   endpoint: `/organizations/${organizationID}/events/${eventID}/sections`,
+  mergeResponse: (state, res) => {
+    state.responses[`organization-events-${organizationID}`].forEach(
+      (event: Event) => {
+        if (event.event_id === eventID) {
+          event.sections.push(res.data);
+        }
+      }
+    );
+  },
 });
 
 export const getOrganizationEvents = (

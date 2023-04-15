@@ -71,19 +71,26 @@ const showing = ref(false);
 const sectionName = ref("");
 const sectionPrice = ref("");
 const totalTickets = ref("");
+const apiCallError = ref("");
 
 const viewCredentials = () => {
   showing.value = true;
 };
 
 const onAddSection = async () => {
-  service.call(
-    addSection(props.event.event_id, props.organizationID, {
-      name: sectionName.value,
-      price: parseInt(sectionPrice.value),
-      totalTickets: parseInt(totalTickets.value),
+  service
+    .call(
+      addSection(props.event.event_id, props.organizationID, {
+        name: sectionName.value,
+        price: parseInt(sectionPrice.value),
+        totalTickets: parseInt(totalTickets.value),
+      })
+    )
+    .catch((err) => {
+      console.log(err);
     })
-  );
-  showing.value = false;
+    .then(() => {
+      showing.value = false;
+    });
 };
 </script>

@@ -32,11 +32,10 @@ export const useServiceStore = defineStore("services", {
 
           if (service.bodyType === "form") {
             parsedBody = serialize(parsedBody);
-            console.log(parsedBody.get("poster"))
+            console.log(parsedBody.get("poster"));
           }
-          
-          console.log("Calling service", service.method, service.endpoint);
 
+          console.log("Calling service", service.method, service.endpoint);
 
           const res = await api.request({
             url: service.endpoint,
