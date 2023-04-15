@@ -26,6 +26,7 @@
           {{ moment(event.date).format("HH:mm") }}
         </p>
       </div>
+      <AddSectionModal :event="event" :organizationID="selectedOrg.id" />
     </q-card-section>
   </q-card>
 </template>
@@ -36,6 +37,7 @@ import { computed, watch } from "vue";
 import { useAuthorizedService } from "@/stores/servicesWithAuth";
 import { getOrganizationEvents } from "@/endpoints/event";
 import moment from "moment/moment";
+import AddSectionModal from "./AddSectionModal.vue";
 
 const selectedOrg = useSelectedOrganization();
 const service = useAuthorizedService();
@@ -51,7 +53,6 @@ watch(
 const events = computed(() =>
   service.response(getOrganizationEvents(selectedOrg.id))
 );
-
 </script>
 
 <style scoped>

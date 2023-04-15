@@ -53,7 +53,7 @@ watch(
   (newVal) => {
     if (newVal) {
       organizationStore.selectOrganization({
-        id: newVal.organization_id,
+        organization_id: newVal.organization_id,
         name: newVal.name,
       });
     }

@@ -25,11 +25,13 @@ export interface ApiResponseEvent {
 export interface AppSection {
   name: string;
   totalTickets: number;
+  price: number;
 }
 
 export interface ApiSection {
   name: string;
   total_tickets: number;
+  ticket_price: number;
 }
 
 export interface Event {
@@ -83,22 +85,24 @@ export const createEvent = (
   },
 });
 
-export const AddSection = (
+export const addSection = (
   eventID: string,
+  organizationID: string,
   sectionData: AppSection
 ): ServiceCall<ApiResponseSection, ApiSection> => ({
   method: "PUT",
   body: {
     name: sectionData.name,
     total_tickets: sectionData.totalTickets,
+    ticket_price: sectionData.price,
   },
-  mock: {
-    event_id: "123",
-    name: "Section name",
-    total_tickets: 100,
-    on_chain: false,
-  },
-  endpoint: `/events/${eventID}/sections`,
+  // mock: {
+  //   event_id: "123",
+  //   name: "Section name",
+  //   total_tickets: 100,
+  //   on_chain: false,
+  // },
+  endpoint: `/organizations/${organizationID}/events/${eventID}/sections`,
 });
 
 export const getOrganizationEvents = (
