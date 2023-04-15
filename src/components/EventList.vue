@@ -26,11 +26,12 @@
           {{ moment(event.date).format("HH:mm") }}
         </p>
       </div>
-      <AddSectionModal
-        v-if="event.status === EventStatus.DRAFT"
-        :event="event"
-        :organizationID="selectedOrg.id"
-      />
+      <router-link
+        :to="{
+          path: `/organization/${selectedOrg.id}/event/${event.event_id}`,
+        }"
+        >Details</router-link
+      >
     </q-card-section>
   </q-card>
 </template>
@@ -39,9 +40,9 @@
 import { useSelectedOrganization } from "@/stores/organization";
 import { computed, watch } from "vue";
 import { useAuthorizedService } from "@/stores/servicesWithAuth";
-import { getOrganizationEvents, EventStatus } from "@/endpoints/event";
+import { getOrganizationEvents } from "@/endpoints/event";
 import moment from "moment/moment";
-import AddSectionModal from "./AddSectionModal.vue";
+import type { RouterLink } from "vue-router";
 
 const selectedOrg = useSelectedOrganization();
 const service = useAuthorizedService();

@@ -1,8 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "@/views/HomeView.vue";
-import AddEvent from "@/views/AddEvent.vue";
-
-import { useSessionStore } from "@/stores/session";
 
 const DEFAULT_TITLE = "Ticken";
 
@@ -17,7 +13,7 @@ const router = createRouter({
     {
       path: "/",
       name: "home",
-      component: HomeView,
+      component: () => import("@/views/HomeView.vue"),
       meta: {
         loggedInOnly: true,
       },
@@ -36,7 +32,15 @@ const router = createRouter({
     {
       path: "/add-event",
       name: "add-event",
-      component: AddEvent,
+      component: () => import("@/views/AddEvent.vue"),
+      meta: {
+        loggedInOnly: true,
+      },
+    },
+    {
+      path: "/organization/:organizationID/event/:eventID",
+      name: "event",
+      component: () => import("@/views/EventView.vue"),
       meta: {
         loggedInOnly: true,
       },
