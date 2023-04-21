@@ -17,6 +17,7 @@ export interface ApiResponse<T> {
 export interface ServiceCall<T, V = never> {
   method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   endpoint: string;
+  url?: string;
   body?: V;
   key: string;
   mock?: T;

@@ -72,6 +72,28 @@
       v-if="selectedOrgData"
       :organizationID="selectedOrgData?.organization_id"
     />
+    <q-table
+      class="q-mt-lg"
+      :columns="[
+        {
+          name: 'username',
+          label: 'USERNAME',
+          field: 'username',
+          align: 'left',
+        },
+        {
+          name: 'email',
+          label: 'EMAIL',
+          field: 'email',
+          align: 'left',
+        },
+      ]"
+      flat
+      bordered
+      :rows="validators.data.value"
+      row-key="email"
+      :rows-per-page-options="[5, 10, 15]"
+    />
   </ExpandableIfWide>
 </template>
 
@@ -84,7 +106,7 @@ import { useSelectedOrganization } from "@/stores/organization";
 import { computed } from "vue";
 import { storeToRefs } from "pinia";
 import { useAuthorizedService } from "@/stores/servicesWithAuth";
-import { getMyOrganizations } from "@/endpoints/organization";
+import { getMyOrganizations, getOrganizationValidators } from "@/endpoints/organization";
 import type { Node } from "@/endpoints/organization";
 import AddValidator from "./AddValidator.vue";
 
@@ -95,6 +117,10 @@ const selectedOrgID = storeToRefs(organization).id;
 
 const myOrganizations = service.useAuthorizedQuery(
   computed(getMyOrganizations)
+);
+
+const validators = service.useAuthorizedQuery(
+  computed(() => getOrganizationValidators(selectedOrgID.value))
 );
 
 const selectedOrgData = computed(() =>

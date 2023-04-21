@@ -41,6 +41,7 @@ export const useServiceStore = defineStore("services", {
           console.log("Calling service", service.method, service.endpoint);
 
           const res = await api.request({
+            baseURL: service.apiUrl ? service.apiUrl : undefined,
             url: service.endpoint,
             method: service.method,
             data: parsedBody,

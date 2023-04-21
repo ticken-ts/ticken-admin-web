@@ -1,3 +1,4 @@
+import { config } from "@/config/constants";
 import type { ServiceCall } from "@/endpoints/types";
 
 export interface AppMember {
@@ -54,6 +55,13 @@ export interface AppValidator {
   email: string;
 }
 
+export interface ApiValidator {
+  username: string;
+  email: string;
+  validator_id: string;
+  organization_id: string;
+}
+
 export const getMyOrganizations = (): ServiceCall<ApiOrganization[]> => ({
   method: "GET",
   endpoint: "/organizations",
@@ -68,4 +76,13 @@ export const addValidatorCall = (
   endpoint: `/organizations/${organization_id}/validators`,
   key: "add-validator",
   body: validator,
+});
+
+export const getOrganizationValidators = (
+  organization_id: string
+): ServiceCall<ApiValidator[]> => ({
+  method: "GET",
+  endpoint: `/organizations/${organization_id}/validators`,
+  key: "organization-validators",
+  apiUrl: config.validatorsUrl,
 });

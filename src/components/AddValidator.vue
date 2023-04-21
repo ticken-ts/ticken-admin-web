@@ -1,10 +1,11 @@
 <template>
   <CustomButton
-    filled
+    outline
     color="primary"
     label="add validator"
     @click="clickAddValidator"
     class="text-caption"
+    icon="ion-add"
   />
   <q-dialog v-model="showingDialog">
     <CustomCard class="full-width">
