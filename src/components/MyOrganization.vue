@@ -67,6 +67,11 @@
       </q-table>
     </q-tab-panel>
     <UserTable v-if="selectedOrgData" :users="selectedOrgData?.users" />
+    <p class="text-h6">Validators</p>
+    <AddValidator
+      v-if="selectedOrgData"
+      :organizationID="selectedOrgData?.organization_id"
+    />
   </ExpandableIfWide>
 </template>
 
@@ -81,6 +86,7 @@ import { storeToRefs } from "pinia";
 import { useAuthorizedService } from "@/stores/servicesWithAuth";
 import { getMyOrganizations } from "@/endpoints/organization";
 import type { Node } from "@/endpoints/organization";
+import AddValidator from "./AddValidator.vue";
 
 const service = useAuthorizedService();
 

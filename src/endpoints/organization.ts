@@ -48,8 +48,24 @@ export interface User {
   role: string;
 }
 
+export interface AppValidator {
+  username: string;
+  password: string;
+  email: string;
+}
+
 export const getMyOrganizations = (): ServiceCall<ApiOrganization[]> => ({
   method: "GET",
   endpoint: "/organizations",
   key: "my-organizations",
+});
+
+export const addValidatorCall = (
+  organization_id: string,
+  validator: AppValidator
+): ServiceCall<ApiOrganization, AppValidator> => ({
+  method: "POST",
+  endpoint: `/organizations/${organization_id}/validators`,
+  key: "add-validator",
+  body: validator,
 });

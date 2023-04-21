@@ -48,7 +48,7 @@ function openLogoutPrompt() {
       v-if="userHasOrganizations"
       class="row col-12 justify-md-evenly justify-center items-start content-start"
     >
-      <div class="col-lg-5 col-md-6 col-11">
+      <div class="col-lg-5 col-md-6 col-11 q-mb-lg">
         <CustomCard class="contentCard">
           <Organization />
         </CustomCard>
@@ -59,7 +59,7 @@ function openLogoutPrompt() {
         </CustomCard>
       </div>
     </div>
-    <div v-else class="col-lg-6 col-md-8 col-11">
+    <div v-else class="col-lg-6 col-md-8 col-11 q-mb-lg">
       <CustomCard class="contentCard column items-center">
         <div class="flex column items-center">
           <p class="text-h4 text-center">You don't have an organization</p>
