@@ -93,11 +93,23 @@ const addValidatorMutation = service.useAuthorizedMutation(
 );
 
 const addValidator = async () => {
-  await addValidatorMutation.mutateAsync();
-  quasar.notify({
-    type: "positive",
-    message: "Validator added successfully",
-  });
-  showingDialog.value = false;
+  await addValidatorMutation
+    .mutateAsync()
+    .then(() => {
+      quasar.notify({
+        type: "positive",
+        message: "Validator added successfully",
+      });
+      showingDialog.value = false;
+      username.value = "";
+      password.value = "";
+      email.value = "";
+    })
+    .catch(() => {
+      quasar.notify({
+        message: "Failed to add validator",
+        type: "negative",
+      });
+    });
 };
 </script>

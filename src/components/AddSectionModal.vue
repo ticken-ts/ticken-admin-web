@@ -58,6 +58,9 @@ import CustomInput from "./CustomInput.vue";
 import CustomCard from "./CustomCard.vue";
 import { addSection, type Event } from "@/endpoints/event";
 import { useAuthorizedService } from "@/stores/servicesWithAuth";
+import { useQuasar } from "quasar";
+
+const quasar = useQuasar();
 
 const props = defineProps<{
   event: Event;
@@ -71,7 +74,6 @@ const showing = ref(false);
 const sectionName = ref("");
 const sectionPrice = ref("");
 const totalTickets = ref("");
-const apiCallError = ref("");
 
 const viewCredentials = () => {
   showing.value = true;
@@ -88,10 +90,20 @@ const addSectionMutation = service.useAuthorizedMutation(
 );
 
 const onAddSection = async () => {
-  addSectionMutation.mutateAsync().catch((e) => {
-    console.log(e);
-  });
-
-  alert("Section added successfully");
+  addSectionMutation
+    .mutateAsync()
+    .then(() => {
+      quasar.notify({
+        message: "Section added successfully",
+        color: "positive",
+      });
+      showing.value = false;
+    })
+    .catch(() => {
+      quasar.notify({
+        message: "Failed to add section",
+        color: "negative",
+      });
+    });
 };
 </script>

@@ -125,7 +125,8 @@ import CustomButton from "@/components/CustomButton.vue";
 import { useAuthorizedService } from "@/stores/servicesWithAuth";
 import { createEvent } from "@/endpoints/event";
 import { useSelectedOrganization } from "@/stores/organization";
-import router from "@/router";
+import { useQuasar } from "quasar";
+import { useRouter } from "vue-router";
 
 const name = ref("");
 const description = ref("");
@@ -152,11 +153,29 @@ const addEventMutation = service.useAuthorizedMutation(
   })
 );
 
+const q = useQuasar();
+const router = useRouter();
+
 const addEvent = async () => {
   console.log("adding event");
 
-  addEventMutation.mutate();
-  router.replace({ path: "/" });
+  await addEventMutation
+    .mutateAsync()
+    .then((res) => {
+      router.replace({ path: "/" });
+      q.notify({
+        type: "positive",
+        message: "Event added successfully",
+      });
+      console.log(res);
+    })
+    .catch(() => {
+      q.notify({
+        type: "negative",
+        message: "Failed to add event",
+      });
+      return;
+    });
 };
 </script>
 
