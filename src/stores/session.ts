@@ -9,6 +9,7 @@ export const useSessionStore = defineStore(
     const token = ref("");
     const loginError = ref("");
     const loading = ref(false);
+    const initialized = ref(false);
 
     const keycloak = ref(
       new Keycloak({
@@ -32,6 +33,9 @@ export const useSessionStore = defineStore(
           } else {
             window.location.reload();
           }
+        })
+        .finally(() => {
+          initialized.value = true;
         });
     };
 
@@ -63,6 +67,7 @@ export const useSessionStore = defineStore(
       init,
       fetchNewToken,
       invalidateToken,
+      initialized,
     };
   },
   {

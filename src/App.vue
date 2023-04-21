@@ -11,5 +11,5 @@ onMounted(() => {
 </script>
 
 <template>
-  <RouterView />
+  <RouterView v-if="session.initialized" />
 </template>
