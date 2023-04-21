@@ -6,6 +6,7 @@ import "@quasar/extras/material-icons/material-icons.css";
 import "@quasar/extras/ionicons-v4/ionicons-v4.css";
 import "quasar/src/css/index.sass";
 import "quasar/src/css/flex-addon.sass";
+import { VueQueryPlugin } from "vue-query";
 
 import App from "@/App.vue";
 import router from "@/router";
@@ -22,5 +23,6 @@ pinia.use(piniaPluginPersistedstate);
 
 app.use(pinia);
 app.use(router);
+app.use(VueQueryPlugin);
 
 app.mount("#app");

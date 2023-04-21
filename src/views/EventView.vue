@@ -79,66 +79,61 @@ const route = useRoute();
 
 const service = useAuthorizedService();
 
-const event = computed(() => {
+const getEventsCall = computed(() => {
   if (!Array.isArray(route.params.organizationID)) {
-    const events = service.response(
-      getOrganizationEvents(route.params.organizationID)
-    );
-    return events?.find(
-      (event: Event) => event.event_id === route.params.eventID
-    );
+    return getOrganizationEvents(route.params.organizationID as string);
+  } else {
+    return getOrganizationEvents(route.params.organizationID[0] as string);
   }
-  return undefined;
 });
 
-const onSetOnSale = () => {
-  service
-    .call(
-      setEventStatus(
-        route.params.eventID as string,
-        route.params.organizationID as string,
-        EventStatus.ON_SALE
-      )
+const events = service.useAuthorizedQuery(getEventsCall);
+
+const event = computed(() => {
+  return events.data.value?.find(
+    (event: Event) => event.event_id === route.params.eventID
+  );
+});
+
+const setOnSaleMutation = service.useAuthorizedMutation(
+  computed(() =>
+    setEventStatus(
+      route.params.eventID as string,
+      route.params.organizationID as string,
+      EventStatus.ON_SALE
     )
-    .then(() => {
-      console.log("set on sale");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  )
+);
+
+const setRunningMutation = service.useAuthorizedMutation(
+  computed(() =>
+    setEventStatus(
+      route.params.eventID as string,
+      route.params.organizationID as string,
+      EventStatus.RUNNING
+    )
+  )
+);
+
+const setFinishedMutation = service.useAuthorizedMutation(
+  computed(() =>
+    setEventStatus(
+      route.params.eventID as string,
+      route.params.organizationID as string,
+      EventStatus.FINISHED
+    )
+  )
+);
+
+const onSetOnSale = () => {
+  setOnSaleMutation.mutate();
 };
 
 const setRunning = () => {
-  service
-    .call(
-      setEventStatus(
-        route.params.eventID as string,
-        route.params.organizationID as string,
-        EventStatus.RUNNING
-      )
-    )
-    .then(() => {
-      console.log("set running");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  setRunningMutation.mutate();
 };
 
 const setFinished = () => {
-  service
-    .call(
-      setEventStatus(
-        route.params.eventID as string,
-        route.params.organizationID as string,
-        EventStatus.FINISHED
-      )
-    )
-    .then(() => {
-      console.log("set finished");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  setFinishedMutation.mutate();
 };
 </script>

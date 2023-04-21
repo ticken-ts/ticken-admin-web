@@ -67,9 +67,7 @@ export const createEvent = (
     poster: eventData.poster,
   },
   bodyType: "form",
-  mergeResponse: (state, res) => {
-    state.responses[`organization-events-${organizationID}`].push(res.data);
-  },
+  key: `event`,
 });
 
 export const addSection = (
@@ -84,15 +82,7 @@ export const addSection = (
     ticket_price: sectionData.price,
   },
   endpoint: `/organizations/${organizationID}/events/${eventID}/sections`,
-  mergeResponse: (state, res) => {
-    state.responses[`organization-events-${organizationID}`].forEach(
-      (event: Event) => {
-        if (event.event_id === eventID) {
-          event.sections.push(res.data);
-        }
-      }
-    );
-  },
+  key: `event-sections`,
 });
 
 export const getOrganizationEvents = (
@@ -100,8 +90,7 @@ export const getOrganizationEvents = (
 ): ServiceCall<Event[]> => ({
   method: "GET",
   endpoint: `/organizations/${organizationID}/events`,
-  key: `organization-events-${organizationID}`,
-  parseResponse: (res) => res.data,
+  key: `organization-events`,
 });
 
 type SetStatusBody = {
@@ -118,13 +107,5 @@ export const setEventStatus = (
     next_status: status,
   },
   endpoint: `/organizations/${organizationID}/events/${eventID}/status`,
-  mergeResponse: (state, res) => {
-    state.responses[`organization-events-${organizationID}`].forEach(
-      (event: Event) => {
-        if (event.event_id === eventID) {
-          event.status = res.data.status;
-        }
-      }
-    );
-  },
+  key: `event-status`,
 });

@@ -25,11 +25,11 @@ const organizationStore = useSelectedOrganization();
 //   service.call(getMyOrganizations());
 // });
 
-const myOrganizations = service.response(getMyOrganizations());
+const myOrganizations = service.useAuthorizedQuery(computed(getMyOrganizations))
 
 const organizationSelectorOptions = computed(() => {
   if (myOrganizations) {
-    return myOrganizations.map((org) => ({
+    return myOrganizations.data.value?.map((org) => ({
       label: org.name,
       value: org.organization_id,
     }));
@@ -40,10 +40,10 @@ const organizationSelectorOptions = computed(() => {
 
 const savedSelectedOrgID = organizationStore.id;
 const selectedOrgID = ref(
-  savedSelectedOrgID || organizationSelectorOptions.value[0]?.value
+  savedSelectedOrgID || organizationSelectorOptions?.value?.[0]?.value
 );
 const selectedOrg = computed(() => {
-  return myOrganizations?.find(
+  return myOrganizations.data.value?.find(
     (org) => org.organization_id === selectedOrgID.value
   );
 });

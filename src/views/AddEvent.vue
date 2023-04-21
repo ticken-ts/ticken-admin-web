@@ -12,8 +12,6 @@
         <div class="blankSpace" />
         <q-editor
           v-model="description"
-          type="textarea"
-          label="Description"
           placeholder="Enter event description"
           :fonts="{
             arial: 'Arial',
@@ -107,7 +105,6 @@
         <div class="blankSpace" />
         <q-file
           label="Poster Image"
-          type="file"
           accept="image/*"
           stack-label
           v-model="file"
@@ -123,7 +120,7 @@
 <script setup lang="ts">
 import CustomForm from "@/components/CustomForm.vue";
 import CustomInput from "@/components/CustomInput.vue";
-import { ref, type Ref } from "vue";
+import { ref, type Ref, computed } from "vue";
 import CustomButton from "@/components/CustomButton.vue";
 import { useAuthorizedService } from "@/stores/servicesWithAuth";
 import { createEvent } from "@/endpoints/event";
@@ -139,22 +136,26 @@ const file: Ref<undefined | File> = ref();
 const service = useAuthorizedService();
 const organization = useSelectedOrganization();
 
-const addEvent = async () => {
-  console.log("adding event");
-  const eventDate = new Date(date.value);
-  const eventTime = time.value.split(":");
-  eventDate.setHours(parseInt(eventTime[0]));
-  eventDate.setMinutes(parseInt(eventTime[1]));
-
-  await service.call(
-    createEvent(organization.id, {
+const addEventMutation = service.useAuthorizedMutation(
+  computed(() => {
+    const eventDate = new Date(date.value);
+    const eventTime = time.value.split(":");
+    eventDate.setHours(parseInt(eventTime[0]));
+    eventDate.setMinutes(parseInt(eventTime[1]));
+    return createEvent(organization.id, {
       name: name.value,
       description: description.value,
       date: eventDate,
       time: time.value,
       poster: file.value,
-    })
-  );
+    });
+  })
+);
+
+const addEvent = async () => {
+  console.log("adding event");
+
+  addEventMutation.mutate();
   router.replace({ path: "/" });
 };
 </script>

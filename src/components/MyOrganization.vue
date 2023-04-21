@@ -58,9 +58,11 @@ const service = useAuthorizedService();
 const organization = useSelectedOrganization();
 const selectedOrgID = storeToRefs(organization).id;
 
+const myOrganizations = service.useAuthorizedQuery(computed(getMyOrganizations));
+
 const selectedOrgData = computed(() =>
-  service
-    .response(getMyOrganizations())
-    ?.find((org) => org.organization_id === selectedOrgID.value)
+  myOrganizations.data.value?.find(
+    (org) => org.organization_id === selectedOrgID.value
+  )
 );
 </script>

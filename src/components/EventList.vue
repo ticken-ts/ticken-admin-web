@@ -8,7 +8,7 @@
   <q-card
     flat
     bordered
-    v-for="event in events"
+    v-for="event in events.data.value"
     :key="event.event_id"
     class="eventCard"
   >
@@ -41,27 +41,28 @@
 
 <script setup lang="ts">
 import { useSelectedOrganization } from "@/stores/organization";
-import { computed, watch } from "vue";
 import { useAuthorizedService } from "@/stores/servicesWithAuth";
 import { getOrganizationEvents } from "@/endpoints/event";
 import moment from "moment/moment";
 import type { RouterLink } from "vue-router";
 import EventStatusBadge from "@/components/EventStatusBadge.vue";
+import { storeToRefs } from "pinia";
+import { computed, warn, watch } from "vue";
 
 const selectedOrg = useSelectedOrganization();
 const service = useAuthorizedService();
 
-watch(
-  selectedOrg,
-  () => {
-    service.call(getOrganizationEvents(selectedOrg.id));
-  },
-  { immediate: true }
-);
+const { id } = storeToRefs(selectedOrg);
 
-const events = computed(() =>
-  service.response(getOrganizationEvents(selectedOrg.id))
-);
+watch(id, (newVal, oldVal) => {
+  console.log("selected new org: ", newVal);
+});
+
+const call = computed(() => {
+  return getOrganizationEvents(id.value);
+});
+
+const events = service.useAuthorizedQuery(call);
 </script>
 
 <style scoped>

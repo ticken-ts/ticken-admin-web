@@ -17,11 +17,8 @@ export interface ApiResponse<T> {
 export interface ServiceCall<T, V = never> {
   method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   endpoint: string;
-  parseResponse?: (res: AxiosResponse<ApiResponse<T>>) => ApiResponse<T>;
-  parseError?: (e: AxiosError) => ApiError;
-  mergeResponse?: (state: State, res: ApiResponse<T>) => void;
   body?: V;
-  key?: string;
+  key: string;
   mock?: T;
   apiUrl?: string;
   bodyType?: "json" | "form";

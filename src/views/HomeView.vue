@@ -6,22 +6,26 @@ import Organization from "@/components/MyOrganization.vue";
 import DialogModal from "@/components/DialogModal.vue";
 import CustomCard from "@/components/CustomCard.vue";
 import PageWithHeader from "@/components/PageWithHeader.vue";
-import { getMyOrganizations } from "@/endpoints/organization";
+import {
+  type ApiOrganization,
+  getMyOrganizations,
+} from "@/endpoints/organization";
 import { useAuthorizedService } from "@/stores/servicesWithAuth";
 
 const showLogoutPrompt = ref(false);
 
 const service = useAuthorizedService();
 
-const myOrganizations = computed(() => service.response(getMyOrganizations()));
+const call = computed(() => {
+  return getMyOrganizations();
+});
+
+const myOrganizations = service.useAuthorizedQuery(call);
 
 const userHasOrganizations = computed(
-  () => myOrganizations.value?.length && myOrganizations.value?.length > 0
+  () =>
+    myOrganizations.data.value?.length && myOrganizations.data.value?.length > 0
 );
-
-onMounted(() => {
-  service.call(getMyOrganizations());
-});
 
 const session = useSessionStore();
 function logout() {

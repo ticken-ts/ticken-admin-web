@@ -50,29 +50,16 @@ export const useServiceStore = defineStore("services", {
                 }
               : undefined,
           });
-          if (service.parseResponse) {
-            parsed = service.parseResponse(res);
-          } else {
-            parsed = res.data;
-          }
+          parsed = res.data;
         } catch (e) {
-          console.log("Error making service call", e)
+          console.log("Error making service call", e);
           const error = e as AxiosError;
-          if (service.parseError) {
-            console.log("Parsing error", error)
-            throw service.parseError(error);
-          } else {
-            console.log("Throwing error", error)
-            throw {
-              code: error.code,
-              message: error.request.data,
-            } as ApiError;
-          }
+          console.log("Throwing error", error);
+          throw {
+            code: error.code,
+            message: error.request.data,
+          } as ApiError;
         }
-      }
-
-      if (service.mergeResponse) {
-        service.mergeResponse(this.$state, parsed);
       }
 
       if (service.key) {

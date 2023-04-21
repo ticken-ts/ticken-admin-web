@@ -52,7 +52,7 @@
 
 <script setup lang="ts">
 import CustomButton from "@/components/CustomButton.vue";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import CustomForm from "./CustomForm.vue";
 import CustomInput from "./CustomInput.vue";
 import CustomCard from "./CustomCard.vue";
@@ -77,21 +77,21 @@ const viewCredentials = () => {
   showing.value = true;
 };
 
-const onAddSection = async () => {
-  service
-    .call(
-      addSection(props.event.event_id, props.organizationID, {
-        name: sectionName.value,
-        price: parseInt(sectionPrice.value),
-        totalTickets: parseInt(totalTickets.value),
-      })
-    )
-    .then(() => {
-      showing.value = false;
-      alert("Section added successfully");
+const addSectionMutation = service.useAuthorizedMutation(
+  computed(() =>
+    addSection(props.event.event_id, props.organizationID, {
+      name: sectionName.value,
+      price: parseInt(sectionPrice.value),
+      totalTickets: parseInt(totalTickets.value),
     })
-    .catch((err) => {
-      console.log(err);
-    });
+  )
+);
+
+const onAddSection = async () => {
+  addSectionMutation.mutateAsync().catch((e) => {
+    console.log(e);
+  });
+
+  alert("Section added successfully");
 };
 </script>
