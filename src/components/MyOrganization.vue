@@ -10,8 +10,8 @@
     <div>
       <p class="text-h5">Organization</p>
       <p>Name: {{ selectedOrgData?.name }}</p>
+      <p>MSP ID: {{ selectedOrgData?.msp_id }}</p>
     </div>
-    <OrganizationCredentials />
   </div>
   <ExpandableIfWide>
     <p class="text-h6">Peers</p>
@@ -30,13 +30,41 @@
             field: 'address',
             align: 'left',
           },
+          {
+            name: 'Credentials',
+            label: 'CREDENTIALS',
+            field: 'node',
+            align: 'left',
+          },
         ]"
         flat
         bordered
         :rows="selectedOrgData?.nodes"
         row-key="email"
         :rows-per-page-options="[5, 10, 15]"
-      ></q-table>
+      >
+        <template #body="{ row }: { row: Node }">
+          <q-tr :key="row.address">
+            <q-td>
+              <q-item>
+                <q-item-section>{{ row.node_name }}</q-item-section>
+              </q-item>
+            </q-td>
+            <q-td>
+              <q-item>
+                <q-item-section>{{ row.address }}</q-item-section>
+              </q-item>
+            </q-td>
+            <q-td>
+              <q-item>
+                <q-item-section>
+                  <OrganizationCredentials :node="row" />
+                </q-item-section>
+              </q-item>
+            </q-td>
+          </q-tr>
+        </template>
+      </q-table>
     </q-tab-panel>
     <UserTable v-if="selectedOrgData" :users="selectedOrgData?.users" />
   </ExpandableIfWide>
@@ -52,13 +80,16 @@ import { computed } from "vue";
 import { storeToRefs } from "pinia";
 import { useAuthorizedService } from "@/stores/servicesWithAuth";
 import { getMyOrganizations } from "@/endpoints/organization";
+import type { Node } from "@/endpoints/organization";
 
 const service = useAuthorizedService();
 
 const organization = useSelectedOrganization();
 const selectedOrgID = storeToRefs(organization).id;
 
-const myOrganizations = service.useAuthorizedQuery(computed(getMyOrganizations));
+const myOrganizations = service.useAuthorizedQuery(
+  computed(getMyOrganizations)
+);
 
 const selectedOrgData = computed(() =>
   myOrganizations.data.value?.find(
