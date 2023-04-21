@@ -56,10 +56,13 @@ export const useServiceStore = defineStore("services", {
             parsed = res.data;
           }
         } catch (e) {
+          console.log("Error making service call", e)
           const error = e as AxiosError;
           if (service.parseError) {
+            console.log("Parsing error", error)
             throw service.parseError(error);
           } else {
+            console.log("Throwing error", error)
             throw {
               code: error.code,
               message: error.request.data,

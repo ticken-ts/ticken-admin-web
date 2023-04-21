@@ -42,6 +42,20 @@ export const useSessionStore = defineStore(
       refreshToken.value = "";
     };
 
+    const fetchNewToken = async () => {
+      console.log("Fetching new token")
+      const newToken = await keycloak.value.updateToken(70);
+      if (newToken && keycloak.value.token) {
+        token.value = keycloak.value.token || "";
+        return keycloak.value.token;
+      }
+    };
+
+    const invalidateToken = () => {
+      console.log("Invalidating token")
+      token.value = "";
+    };
+
     return {
       token,
       refreshToken,
@@ -50,6 +64,8 @@ export const useSessionStore = defineStore(
       logout,
       loading,
       init,
+      fetchNewToken,
+      invalidateToken,
     };
   },
   {

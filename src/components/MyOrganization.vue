@@ -61,6 +61,6 @@ const selectedOrgID = storeToRefs(organization).id;
 const selectedOrgData = computed(() =>
   service
     .response(getMyOrganizations())
-    .find((org) => org.organization_id === selectedOrgID.value)
+    ?.find((org) => org.organization_id === selectedOrgID.value)
 );
 </script>

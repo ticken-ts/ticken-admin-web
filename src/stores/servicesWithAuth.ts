@@ -11,7 +11,23 @@ export const useAuthorizedService = defineStore("authorizedService", () => {
   const call = async <T, V>(
     service: ServiceCall<T, V>
   ): Promise<ApiResponse<T>> => {
-    return services.call(service, auth.token);
+    try {
+      const res = await services.call(service, auth.token);
+      return res;
+    } catch (e) {
+      console.log("Error making authenticated call", e);
+      const newToken = await auth.fetchNewToken();
+      console.log("Trying again with new token", newToken);
+      try {
+        const res = await services.call(service, newToken);
+        return res;
+      } catch (e) {
+        console.log("Error making authenticated call twice, logging out", e);
+        throw {
+          message: "Error making authenticated call twice, logging out",
+        };
+      }
+    }
   };
 
   const response: Ref<<T, V>(service: ServiceCall<T, V>) => T | undefined> =
