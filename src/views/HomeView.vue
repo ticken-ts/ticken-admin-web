@@ -48,18 +48,16 @@ function openLogoutPrompt() {
       v-if="userHasOrganizations"
       class="row col-12 justify-md-evenly justify-center items-start content-start"
     >
-      <div class="col-lg-2 col-0" />
-      <div class="col-lg-3 col-md-5 col-11">
+      <div class="col-lg-5 col-md-5 col-11">
         <CustomCard class="contentCard">
           <Organization />
         </CustomCard>
       </div>
-      <div class="col-lg-3 col-md-5 col-11">
+      <div class="col-lg-5 col-md-5 col-11">
         <CustomCard class="contentCard">
           <EventList />
         </CustomCard>
       </div>
-      <div class="col-lg-2 col-0" />
     </div>
     <div v-else class="col-lg-6 col-md-8 col-11">
       <CustomCard class="contentCard column items-center">
