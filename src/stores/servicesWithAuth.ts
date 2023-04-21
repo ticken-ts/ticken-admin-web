@@ -12,6 +12,7 @@ export const useAuthorizedService = defineStore("authorizedService", () => {
     service: ServiceCall<T, V>
   ): Promise<ApiResponse<T>> => {
     try {
+      console.log("Making authenticated call with token", auth.token);
       const res = await services.call(service, auth.token);
       return res;
     } catch (e) {

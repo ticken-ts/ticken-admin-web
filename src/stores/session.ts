@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import Keycloak from "keycloak-js";
 import { config } from "@/config/constants";
 
@@ -7,7 +7,6 @@ export const useSessionStore = defineStore(
   "session",
   () => {
     const token = ref("");
-    const refreshToken = ref("");
     const loginError = ref("");
     const loading = ref(false);
 
@@ -39,7 +38,6 @@ export const useSessionStore = defineStore(
     const logout = async () => {
       await keycloak.value.logout();
       token.value = "";
-      refreshToken.value = "";
     };
 
     const fetchNewToken = async () => {
@@ -58,7 +56,6 @@ export const useSessionStore = defineStore(
 
     return {
       token,
-      refreshToken,
       isLoggedIn,
       loginError,
       logout,
@@ -71,7 +68,7 @@ export const useSessionStore = defineStore(
   {
     persist: {
       storage: localStorage,
-      paths: ["token", "refreshToken"],
+      paths: ["token"],
     },
   }
 );
