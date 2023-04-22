@@ -1,3 +1,4 @@
+import { config } from "@/config/constants";
 import type { ServiceCall } from "@/endpoints/types";
 
 export interface AppEvent {
@@ -100,7 +101,7 @@ type SetStatusBody = {
 export const setEventStatus = (
   eventID: string,
   organizationID: string,
-  status: EventStatus,
+  status: EventStatus
 ): ServiceCall<Event, SetStatusBody> => ({
   method: "PATCH",
   body: {
@@ -109,3 +110,7 @@ export const setEventStatus = (
   endpoint: `/organizations/${organizationID}/events/${eventID}/status`,
   key: `event-status`,
 });
+
+export const getPosterUri = (posterID: string): string => {
+  return config.apiUrl + "/assets/" + posterID;
+};

@@ -1,6 +1,7 @@
 <template>
   <div class="q-pa-md q-mt-auto justify-center container row grid">
     <div class="items-stretch column col-md-8 col-10">
+      <GoBack class="q-mb-sm"/>
       <p class="text-h3">New Event</p>
       <CustomForm class="column" @submit="addEvent">
         <CustomInput
@@ -110,6 +111,13 @@
           v-model="file"
           :rules="[(val: string) => !!val || 'Poster image is required']"
         />
+        <q-img class="eventPoster" fit="cover" :src="imagePreview">
+          <template v-slot:default>
+            <div v-if="!file" class="bg-tertiary light-dimmed full-width eventPoster posterPlaceholder">
+              Your image will preview here
+            </div>
+          </template>
+        </q-img>
         <div class="blankSpace" />
         <CustomButton type="submit" color="primary" label="Add Event" />
       </CustomForm>
@@ -127,12 +135,21 @@ import { createEvent } from "@/endpoints/event";
 import { useSelectedOrganization } from "@/stores/organization";
 import { useQuasar } from "quasar";
 import { useRouter } from "vue-router";
+import GoBack from "@/components/GoBack.vue";
 
 const name = ref("");
 const description = ref("");
 const date = ref(new Date().toISOString().slice(0, 10));
 const time = ref(new Date().toLocaleTimeString().slice(0, 5));
 const file: Ref<undefined | File> = ref();
+
+const imagePreview = computed(() => {
+  if (file.value) {
+    return URL.createObjectURL(file.value);
+  } else {
+    return "";
+  }
+});
 
 const service = useAuthorizedService();
 const organization = useSelectedOrganization();
@@ -185,5 +202,15 @@ const addEvent = async () => {
 
 .blankSpace {
   margin-top: 1em;
+}
+
+.eventPoster {
+  aspect-ratio: 21/9;
+}
+
+.posterPlaceholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

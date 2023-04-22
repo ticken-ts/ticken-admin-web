@@ -2,7 +2,7 @@
   <div class="row justify-between items-center sectionHeader">
     <p class="text-h5 title text-center no-margin">Events</p>
     <RouterLink to="add-event">
-      <q-btn flat icon="add" label="add event" color="primary" />
+      <CustomButton outlined icon="add" label="add event" color="primary" />
     </RouterLink>
   </div>
   <q-card
@@ -48,6 +48,7 @@ import type { RouterLink } from "vue-router";
 import EventStatusBadge from "@/components/EventStatusBadge.vue";
 import { storeToRefs } from "pinia";
 import { computed, warn, watch } from "vue";
+import CustomButton from "./CustomButton.vue";
 
 const selectedOrg = useSelectedOrganization();
 const service = useAuthorizedService();

@@ -1,12 +1,17 @@
 <template>
   <div class="q-pa-md q-mt-auto justify-center container row grid">
-    <CustomCard class="items-stretch column col-md-8 col-10">
+    <CustomCard class="items-stretch col-md-6 col-10">
+      <GoBack />
+      <div class="q-mb-lg q-mt-xs">
+        <EventPoster v-if="event" :posterID="event?.poster" />
+      </div>
       <div class="row justify-between">
-        <p class="text-h3">Event Details</p>
+        <div>
+          <p class="text-secondary">Title</p>
+          <p class="text-h5">{{ event?.name }}</p>
+        </div>
         <EventStatusBadge v-if="event" :status="event.status" />
       </div>
-      <p class="text-secondary">Title</p>
-      <p class="text-h5">{{ event?.name }}</p>
       <p class="text-secondary">Date</p>
       <p class="text">{{ moment(event?.date).format("l H:MM") }}</p>
       <q-expansion-item expand-separator label="Description">
@@ -66,6 +71,7 @@ import {
   type Event,
   EventStatus,
   setEventStatus,
+  getPosterUri,
 } from "@/endpoints/event";
 import { computed } from "vue";
 import moment from "moment/moment";
@@ -74,6 +80,8 @@ import CustomButton from "@/components/CustomButton.vue";
 import AddSectionModal from "@/components/AddSectionModal.vue";
 import "@/views/EventView.css";
 import EventStatusBadge from "@/components/EventStatusBadge.vue";
+import GoBack from "@/components/GoBack.vue";
+import EventPoster from "@/components/EventPoster.vue";
 
 const route = useRoute();
 

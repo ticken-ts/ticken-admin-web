@@ -1,5 +1,5 @@
 <template>
-  <q-card>
+  <q-card class="scroll">
     <q-card-section>
       <slot />
     </q-card-section>
@@ -11,5 +11,4 @@
 </script>
 
 <style scoped lang="scss">
-
 </style>
