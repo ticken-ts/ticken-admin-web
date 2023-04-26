@@ -3,7 +3,7 @@
     <div class="items-stretch column col-md-8 col-10">
       <GoBack class="q-mb-sm"/>
       <p class="text-h3">New Event</p>
-      <CustomForm class="column" @submit="addEvent">
+      <CustomForm class="" @submit="addEvent">
         <CustomInput
           v-model="name"
           label="Event Title"
@@ -119,7 +119,7 @@
           </template>
         </q-img>
         <div class="blankSpace" />
-        <CustomButton type="submit" color="primary" label="Add Event" />
+        <CustomButton class="full-width" type="submit" color="primary" label="Add Event" />
       </CustomForm>
     </div>
   </div>
